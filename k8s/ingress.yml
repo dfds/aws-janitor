@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -8,10 +9,10 @@ metadata:
     traefik.frontend.rule.type: PathPrefixStrip
 spec:
   rules:
-  - host: app.dfds.cloud
-    http:
-      paths:
-      - path: /iamsync
-        backend:
-          serviceName: iamsync
-          servicePort: external
+    - host: app.dfds.cloud
+      http:
+        paths:
+          - path: /iamsync
+            backend:
+              serviceName: iamsync
+              servicePort: external
