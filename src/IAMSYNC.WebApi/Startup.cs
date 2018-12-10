@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,14 @@ namespace IAMSYNC.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+       
+            services.AddTransient<BasicAWSCredentials>(x => new BasicAWSCredentials(
+                    Configuration["AWS_ACCESS_KEY_ID"],
+                    Configuration["AWS_SECRET_ACCESS_KEY"]
+                )
+            );
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
