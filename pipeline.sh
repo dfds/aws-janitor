@@ -58,8 +58,8 @@ publish_binaries
 
 cd ..
 
-#build_container_image
+build_container_image
 
-# if [[ "${BUILD_NUMBER}" != "N/A" ]]; then
-#     push_container_image
-# fi
+if [[ "${BUILD_NUMBER}" != "N/A" ]]; then
+    push_container_image
+fi
