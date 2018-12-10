@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: IAMSYNC
+  description: PoC of IAMSYNC
+paths:
+  /api/roles:
+    post:
+      summary: Creates role
+      parameters: 
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name: 
+                type: string
+      responses:
+        200: 
+          description: OK
+  
