@@ -3,11 +3,12 @@ queue: Hosted Ubuntu 1604
 trigger:
 - master
 steps:
-- powershell: |
+- bash: |
    sudo pip install awscli
-   $env:AWS_SECRET_ACCESS_KEY = "$(AWS_SECRET_ACCESS_KEY)"
-   ./pipeline.ps1 -push -buildNumber $(Build.BuildId)
-  displayName: Pipeline PowerShell Script
+   export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
+   chmod +x ./pipeline.sh
+   ./pipeline.sh $(Build.BuildId) $(System.DefaultWorkingDirectory)
+  displayName: Pipeline Bash Script
   enabled: true
 - task: PublishBuildArtifacts@1
   displayName: "Publish Artifact: manifests"
