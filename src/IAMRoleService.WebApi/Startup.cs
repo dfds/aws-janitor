@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Amazon;
 using Amazon.Runtime;
+using IAMRoleService.WebApi.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +24,6 @@ namespace IAMRoleService.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-       
-            services.AddTransient<BasicAWSCredentials>(x => new BasicAWSCredentials(
-                    Configuration["AWS_ACCESS_KEY_ID"],
-                    Configuration["AWS_SECRET_ACCESS_KEY"]
-                )
-            );
 
             services.AddSwaggerGen(c =>
             {
@@ -38,6 +34,14 @@ namespace IAMRoleService.WebApi
                     
                 });
             });
+
+            services.AddTransient<AWSCredentials>(serviceProvider => new BasicAWSCredentials(
+                accessKey: Configuration["AWS_ACCESS_KEY_ID"],
+                secretKey: Configuration["AWS_SECRET_ACCESS_KEY"]
+            ));
+
+            services.AddTransient(serviceProvider => RegionEndpoint.EUCentral1);
+            services.AddTransient(provider => new AwsAccountArn(Configuration["AWS_ACCOUNT_NUMBER"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
