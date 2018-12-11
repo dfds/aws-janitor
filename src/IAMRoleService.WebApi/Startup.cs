@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using System.Collections.Generic;
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,15 @@ namespace IAMRoleService.WebApi
                     Configuration["AWS_SECRET_ACCESS_KEY"]
                 )
             );
-            
+
             services.AddSwaggerGen(c =>
             {
-               c.SwaggerDoc("v1", new Info {Title = "Cognito API", Version = "v1"});
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "IAM Role Service",
+                    Version = "v1.0.0",
+                    
+                });
             });
         }
 
@@ -48,10 +54,32 @@ namespace IAMRoleService.WebApi
 
             app.UseMvc();
             
-            app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM Role Service API"); });
+            app.UseSwagger(x =>
+            {
+                const string basePath = "/api";
 
+                x.PreSerializeFilters.Add((doc, req) =>
+                {
+                    doc.BasePath = basePath;
+                });
 
+                x.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                {
+                    var paths = new Dictionary<string, PathItem>();
+
+                    foreach (var path in swaggerDoc.Paths)
+                    {
+                        paths.Add(path.Key.Replace(basePath, ""), path.Value);
+                    }
+
+                    swaggerDoc.Paths = paths;
+                });
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM Role Service API");
+            });
         }
     }
 }
