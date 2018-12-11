@@ -37,25 +37,21 @@ namespace IAMRoleService.WebApi.Controllers
             return response.Roles.Select(r => r.RoleName);
         }
 
-        public class me
-        {
-            public string name { get; set; }
-        }
-
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] me input)
+        public async Task<IActionResult> Create([FromBody] string roleName)
         {
-            if(string.IsNullOrEmpty(input?.name)) {throw  new ArgumentException("name must not be null");}
+            if(string.IsNullOrEmpty(roleName)) {throw  new ArgumentException("name must not be null");}
 
             var accountArn = "arn:aws:iam::AccountNumber-WithoutHyphens:root";
-            var createRoleRequest = new CreateRoleRequest {RoleName = input.name,
+            var createRoleRequest = new CreateRoleRequest 
+            {
+                RoleName = roleName,
                 AssumeRolePolicyDocument =
                     @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":"""+ accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
 
             };
 
             var createRoleResponse = await _client.CreateRoleAsync(createRoleRequest);
-
 
             return Ok(new {arn = createRoleResponse.Role.Arn});
         }
