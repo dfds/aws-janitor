@@ -8,7 +8,7 @@ using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IAMSYNC.WebApi.Controllers
+namespace IAMRoleService.WebApi.Controllers
 {
     [Route("api/roles")]
     public class RoleController : ControllerBase
