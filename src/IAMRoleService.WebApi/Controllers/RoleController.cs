@@ -6,7 +6,9 @@ using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
+using IAMRoleService.WebApi.Controllers.Models;
 using Microsoft.AspNetCore.Mvc;
+// using IAMRoleService.WebApi.Controllers.Models;
 
 namespace IAMRoleService.WebApi.Controllers
 {
@@ -38,14 +40,14 @@ namespace IAMRoleService.WebApi.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] string roleName)
+        public async Task<IActionResult> Create([FromBody] CreateIAMRoleRequest createIAMRoleRequest)
         {
-            if(string.IsNullOrEmpty(roleName)) {throw  new ArgumentException("name must not be null");}
+            if(string.IsNullOrEmpty(createIAMRoleRequest?.RoleName)) {throw  new ArgumentException("name must not be null");}
 
             var accountArn = "arn:aws:iam::AccountNumber-WithoutHyphens:root";
             var createRoleRequest = new CreateRoleRequest 
             {
-                RoleName = roleName,
+                RoleName = createIAMRoleRequest.RoleName,
                 AssumeRolePolicyDocument =
                     @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":"""+ accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
 
