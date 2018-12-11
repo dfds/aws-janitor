@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAMRoleService.WebApi", "IAMRoleService.WebApi\IAMRoleService.WebApi.csproj", "{1E5D6D88-8A37-4643-90C0-1ECD16814A6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAMRoleService.WebApi.Tests", "IAMRoleService.WebApi.Tests\IAMRoleService.WebApi.Tests.csproj", "{7680A5AE-BDA6-484E-A633-47953A57F80F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{1E5D6D88-8A37-4643-90C0-1ECD16814A6A}.Release|x64.Build.0 = Release|Any CPU
 		{1E5D6D88-8A37-4643-90C0-1ECD16814A6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{1E5D6D88-8A37-4643-90C0-1ECD16814A6A}.Release|x86.Build.0 = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|x64.Build.0 = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Debug|x86.Build.0 = Debug|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|x64.ActiveCfg = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|x64.Build.0 = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|x86.ActiveCfg = Release|Any CPU
+		{7680A5AE-BDA6-484E-A633-47953A57F80F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

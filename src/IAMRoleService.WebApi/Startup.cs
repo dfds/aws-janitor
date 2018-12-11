@@ -3,6 +3,7 @@ using Amazon;
 using Amazon.Runtime;
 using IAMRoleService.WebApi.Controllers;
 using IAMRoleService.WebApi.Models;
+using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,7 @@ namespace IAMRoleService.WebApi
 
             services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
             services.AddTransient(provider => new AwsAccountArn(Configuration["AWS_ACCOUNT_NUMBER"]));
+            services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

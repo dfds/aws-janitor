@@ -7,6 +7,7 @@ using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
 using IAMRoleService.WebApi.Models;
+using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -18,17 +19,19 @@ namespace IAMRoleService.WebApi.Controllers
     {
         private readonly AwsAccountArn _accountArn;
         private readonly AmazonIdentityManagementServiceClient _client;
+        private readonly ICreateIAMRoleRequestValidator _createIAMRoleRequestValidator;
 
-        public RoleController(AWSCredentials awsCredentials, RegionEndpoint regionEndpoint, AwsAccountArn accountArn)
+        public RoleController(AWSCredentials awsCredentials, RegionEndpoint regionEndpoint, AwsAccountArn accountArn, ICreateIAMRoleRequestValidator createIAMRoleRequestValidator)
         {
             _accountArn = accountArn;
             _client = new AmazonIdentityManagementServiceClient(awsCredentials, regionEndpoint);
+            _createIAMRoleRequestValidator = createIAMRoleRequestValidator;
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] CreateIAMRoleRequest input)
         {
-            if (TryValidateCreateRoleRequest(input, out string validationError))
+            if (_createIAMRoleRequestValidator.TryValidateCreateRoleRequest(input, out string validationError))
             {
                 Log.Warning($"Create role called with invalid input. Validation error: {validationError}");
                 return BadRequest(validationError);
@@ -51,36 +54,6 @@ namespace IAMRoleService.WebApi.Controllers
             }
 
             return Ok();
-        }
-
-        private bool TryValidateCreateRoleRequest(CreateIAMRoleRequest request, out string validationError)
-        {
-            validationError = string.Empty;
-
-            if (string.IsNullOrWhiteSpace(request.Name))
-            {
-                validationError = "Name is invalid.";
-                return false;
-            }
-
-            // Role name 64 char max.
-            if (request.Name.Length > 64)
-            {
-                validationError = "Name is invalid. A maximum of 64 characters is allowed.";
-                return false;
-            }
-
-            // Only alphanumeric and '+=,.@-_' allowed.
-            var allowedCharactersPattern = "^[a-zA-Z0-9!@#$&()\\-`.+,/\"]*$";
-            var match = Regex.Match(request.Name, allowedCharactersPattern, RegexOptions.IgnoreCase);
-
-            if (!match.Success)
-            {
-                validationError = "Name is invalid. Only alphanumeric and '+=,.@-_' is allowed.";
-                return false;
-            }
-
-            return true;
         }
     }
 }
