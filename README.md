@@ -1,4 +1,3 @@
-# iamsync
-PoC of AWS IAM synchronization
+# IAM Role Service
 
-test
+A small service for creating IAM roles in AWS
