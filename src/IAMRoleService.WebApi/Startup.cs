@@ -2,6 +2,7 @@
 using Amazon;
 using Amazon.Runtime;
 using IAMRoleService.WebApi.Controllers;
+using IAMRoleService.WebApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ namespace IAMRoleService.WebApi
                 secretKey: Configuration["AWS_SECRET_ACCESS_KEY"]
             ));
 
-            services.AddTransient(serviceProvider => RegionEndpoint.EUCentral1);
+            services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
             services.AddTransient(provider => new AwsAccountArn(Configuration["AWS_ACCOUNT_NUMBER"]));
         }
 

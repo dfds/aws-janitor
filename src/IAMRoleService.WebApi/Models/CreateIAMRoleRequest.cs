@@ -1,7 +1,7 @@
-namespace IAMRoleService.WebApi.Controllers.Models
+namespace IAMRoleService.WebApi.Models
 {
     public class CreateIAMRoleRequest
     {
-        public string RoleName { get; set; }
+        public string Name { get; set; }
     }
 }

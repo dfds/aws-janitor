@@ -3,6 +3,7 @@ using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
+using IAMRoleService.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IAMRoleService.WebApi.Controllers
@@ -20,45 +21,22 @@ namespace IAMRoleService.WebApi.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] me input)
+        public async Task<IActionResult> Create([FromBody] CreateIAMRoleRequest input)
         {
-            if (string.IsNullOrWhiteSpace(input.name))
+            if (string.IsNullOrWhiteSpace(input.Name))
             {
                 return BadRequest("Name is invalid.");
             }
 
             var request = new CreateRoleRequest
             {
-                RoleName = input.name,
+                RoleName = input.Name,
                 AssumeRolePolicyDocument = @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + _accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
             };
 
-            var response = await _client.CreateRoleAsync(request);
+            await _client.CreateRoleAsync(request);
 
-            return Ok(new
-            {
-                arn = response.Role.Arn
-            });
-        }
-
-        public class me
-        {
-            public string name { get; set; }
-        }
-    }
-
-    public class AwsAccountArn
-    {
-        public AwsAccountArn(string accountNumber)
-        {
-            AccountNumber = accountNumber;
-        }
-
-        public string AccountNumber { get; }
-
-        public override string ToString()
-        {
-            return $"arn:aws:iam::{AccountNumber}:root";
+            return Ok();
         }
     }
 }
