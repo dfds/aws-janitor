@@ -1,12 +1,17 @@
 swagger: '2.0'
 info:
   version: 0.0.1
-  title: IAMSYNC
-  description: PoC of IAMSYNC
+  title: IAM Role Service
+  description: Small service for creating IAM roles in AWS
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /api
 paths:
-  /api/roles:
+  /roles:
     post:
-      summary: Creates role
+      summary: Creates a single role
       parameters: 
         - in: body
           name: body
@@ -19,4 +24,3 @@ paths:
       responses:
         200: 
           description: OK
-  
