@@ -2,21 +2,21 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: iamsync
+  name: iamroleservice
   namespace: $(kubernetes-namespace)
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: iamsync
+      app: iamroleservice
   template:
     metadata:
       labels:
-        app: iamsync
+        app: iamroleservice
     spec:
       containers:
-        - name: iamsymc
-          image: 579478677147.dkr.ecr.eu-central-1.amazonaws.com/ded/iamsync:$(Build.BuildId)
+        - name: iamroleservice
+          image: 579478677147.dkr.ecr.eu-central-1.amazonaws.com/ded/iamroleservice:$(Build.BuildId)
           ports:
             - containerPort: 80
               name: web
