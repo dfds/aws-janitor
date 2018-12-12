@@ -1,3 +1,4 @@
+---
 swagger: '2.0'
 info:
   version: 0.0.1
@@ -12,15 +13,22 @@ paths:
   /roles:
     post:
       summary: Creates a single role
-      parameters: 
+      parameters:
         - in: body
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              name: 
-                type: string
+            $ref: "#/definitions/CreateIAMRoleRequest"
       responses:
-        200: 
-          description: OK
+        200:
+          description: The IAM role was created.
+        400:
+          description: The role name is invalid.
+        500:
+          description: An error occured trying to create the IAM role.
+definitions:
+  CreateIAMRoleRequest:
+    type: object
+    properties:
+      name:
+        type: string

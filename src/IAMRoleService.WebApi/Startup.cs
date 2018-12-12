@@ -36,6 +36,8 @@ namespace IAMRoleService.WebApi
                     Title = "IAM Role Service",
                     Version = "v1.0.0",
                 });
+
+                c.EnableAnnotations();
             });
 
             services.AddTransient<AWSCredentials>(serviceProvider => new BasicAWSCredentials(
