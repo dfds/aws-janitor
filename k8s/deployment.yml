@@ -29,10 +29,14 @@ spec:
               cpu: "200m"
           env:
             - name: AWS_ACCESS_KEY_ID
-              value: $(AWS_ACCESS_KEY_ID)
+              valueFrom:
+                secretKeyRef:
+                  name: iamroleservice
+                  key: aws-access-key-id
             - name: AWS_SECRET_ACCESS_KEY
-              value: $(AWS_SECRET_ACCESS_KEY)
+              valueFrom:
+                secretKeyRef:
+                  name: iamroleservice
+                  key: aws-secret-access-key
             - name: AWS_REGION
               value: $(AWS_REGION)
-            - name: AWS_ACCOUNT_NUMBER
-              value: $(AWS_ACCOUNT_NUMBER)
