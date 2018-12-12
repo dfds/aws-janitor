@@ -1,4 +1,4 @@
-[![Build Status](https://dfds.visualstudio.com/DevelopmentExcellence/_apis/build/status/IAMSYNC-ci)](https://dfds.visualstudio.com/DevelopmentExcellence/_build/latest?definitionId=961)
+[![Build Status](https://dfds.visualstudio.com/DevelopmentExcellence/_apis/build/status/iamroleservice-ci)](https://dfds.visualstudio.com/DevelopmentExcellence/_build/latest?definitionId=961)
 
 # IAM Role Service
 
