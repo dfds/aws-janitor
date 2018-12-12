@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
-using Amazon.Runtime;
+using Amazon.SecurityToken;
+using Amazon.SecurityToken.Model;
 using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Http;
@@ -17,14 +16,15 @@ namespace IAMRoleService.WebApi.Controllers
     [Route("api/roles")]
     public class RoleController : ControllerBase
     {
-        private readonly AwsAccountArn _accountArn;
         private readonly AmazonIdentityManagementServiceClient _client;
+        private readonly AmazonSecurityTokenServiceClient _securityTokenServiceClient;
         private readonly ICreateIAMRoleRequestValidator _createIAMRoleRequestValidator;
 
-        public RoleController(AWSCredentials awsCredentials, RegionEndpoint regionEndpoint, AwsAccountArn accountArn, ICreateIAMRoleRequestValidator createIAMRoleRequestValidator)
+        public RoleController(ICreateIAMRoleRequestValidator createIAMRoleRequestValidator, AmazonIdentityManagementServiceClient identityManagementServiceClient, 
+            AmazonSecurityTokenServiceClient securityTokenServiceClient)
         {
-            _accountArn = accountArn;
-            _client = new AmazonIdentityManagementServiceClient(awsCredentials, regionEndpoint);
+            _client = identityManagementServiceClient;
+            _securityTokenServiceClient = securityTokenServiceClient;
             _createIAMRoleRequestValidator = createIAMRoleRequestValidator;
         }
 
@@ -37,12 +37,7 @@ namespace IAMRoleService.WebApi.Controllers
                 return BadRequest(validationError);
             }
 
-            var request = new CreateRoleRequest
-            {
-                RoleName = input.Name,
-                AssumeRolePolicyDocument = @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + _accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
-            };
-
+            var request = await CreateRoleRequest(input.Name);
             var response = await _client.CreateRoleAsync(request);
 
             if (response.HttpStatusCode != HttpStatusCode.OK)
@@ -54,6 +49,18 @@ namespace IAMRoleService.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        private async Task<CreateRoleRequest> CreateRoleRequest(string roleName)
+        {
+            var identityResponse = await _securityTokenServiceClient.GetCallerIdentityAsync(new GetCallerIdentityRequest());
+            var accountArn = new AwsAccountArn(identityResponse.Account);
+
+            return new CreateRoleRequest
+            {
+                RoleName = roleName,
+                AssumeRolePolicyDocument = @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
+            };
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Amazon;
+using Amazon.IdentityManagement;
 using Amazon.Runtime;
+using Amazon.SecurityToken;
 using IAMRoleService.WebApi.Controllers;
 using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
@@ -33,7 +35,6 @@ namespace IAMRoleService.WebApi
                 {
                     Title = "IAM Role Service",
                     Version = "v1.0.0",
-                    
                 });
             });
 
@@ -43,7 +44,16 @@ namespace IAMRoleService.WebApi
             ));
 
             services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-            services.AddTransient(provider => new AwsAccountArn(Configuration["AWS_ACCOUNT_NUMBER"]));
+            services.AddTransient(serviceProvider => new AmazonIdentityManagementServiceClient(
+                credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
+                region: serviceProvider.GetRequiredService<RegionEndpoint>()
+            ));
+
+            services.AddTransient(serviceProvider => new AmazonSecurityTokenServiceClient(
+                credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
+                region: serviceProvider.GetRequiredService<RegionEndpoint>()
+            ));
+
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
         }
 
