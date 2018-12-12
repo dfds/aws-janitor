@@ -31,7 +31,7 @@ namespace IAMRoleService.WebApi.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] CreateIAMRoleRequest input)
         {
-            if (_createIAMRoleRequestValidator.TryValidateCreateRoleRequest(input, out string validationError))
+            if (!_createIAMRoleRequestValidator.TryValidateCreateRoleRequest(input, out string validationError))
             {
                 Log.Warning($"Create role called with invalid input. Validation error: {validationError}");
                 return BadRequest(validationError);
