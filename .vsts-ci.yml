@@ -11,8 +11,17 @@ steps:
       ./pipeline.sh $(Build.BuildId) $(System.DefaultWorkingDirectory)
     displayName: Pipeline Bash Script
     enabled: true
+
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifact: manifests"
     inputs:
       PathtoPublish: k8s
       ArtifactName: manifests
+
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: testresults.trx
+      searchFolder: '$(System.DefaultWorkingDirectory)/output'
+    condition: succeededOrFailed()
