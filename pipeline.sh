@@ -11,15 +11,22 @@ readonly REGION=${AWS_DEFAULT_REGION:-"eu-central-1"}
 readonly IMAGE_NAME='iamroleservice'
 readonly BUILD_NUMBER=${1:-"N/A"}
 readonly BUILD_SOURCES_DIRECTORY=${2:-${PWD}}
+readonly SERVICE_NAME="IAMRoleService"
 
 restore_dependencies() {
     echo "Restoring dependencies"
-    dotnet restore IAMRoleService.sln
+    dotnet restore ${SERVICE_NAME}.sln
+}
+
+run_tests() {
+    echo "Running tests..."
+    dotnet build -c Release ${SERVICE_NAME}.sln
+    dotnet test --logger:"trx;LogFileName=testresults.trx" --results-directory "../" ${SERVICE_NAME}.WebApi.Tests/${SERVICE_NAME}.WebApi.Tests.csproj
 }
 
 publish_binaries() {
     echo "Publishing binaries..."
-    dotnet publish -c Release -o ${BUILD_SOURCES_DIRECTORY}/output IAMRoleService.WebApi/IAMRoleService.WebApi.csproj
+    dotnet publish -c Release -o ${BUILD_SOURCES_DIRECTORY}/output ${SERVICE_NAME}.WebApi/${SERVICE_NAME}.WebApi.csproj
 }
 
 build_container_image() {
@@ -44,6 +51,7 @@ push_container_image() {
 cd ./src
 
 restore_dependencies
+run_tests
 publish_binaries
 
 cd ..
