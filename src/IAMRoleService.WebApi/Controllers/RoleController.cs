@@ -57,7 +57,10 @@ namespace IAMRoleService.WebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occured trying to create the IAM role.");
             }
 
-            return Ok();
+            return Ok(new
+            {
+                RoleArn = response.Role.Arn
+            });
         }
 
         private async Task<CreateRoleRequest> CreateRoleRequest(string roleName)

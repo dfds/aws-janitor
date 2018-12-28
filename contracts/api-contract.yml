@@ -22,6 +22,11 @@ paths:
       responses:
         200:
           description: The IAM role was created.
+          schema:
+            type: object
+            properties:
+              roleArn:
+                type: string
         400:
           description: The role name is invalid.
         500:
