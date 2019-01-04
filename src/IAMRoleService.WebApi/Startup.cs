@@ -20,8 +20,6 @@ namespace IAMRoleService.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            I made this on purpose - testing feedback cycle on build server [jandr]
         }
 
         public IConfiguration Configuration { get; }
