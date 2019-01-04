@@ -25,3 +25,9 @@ steps:
       testResultsFiles: testresults.trx
       searchFolder: '$(System.DefaultWorkingDirectory)/output'
     condition: succeededOrFailed()
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/output/coverage.cobertura.xml'
