@@ -35,8 +35,8 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
 
 
             // Assert
-            var exoectedPrincipal = @"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
-            Assert.Contains(exoectedPrincipal, assumableRoleRequest.AssumeRolePolicyDocument);
+            var expectedSubstring = @"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
+            Assert.Contains(expectedSubstring, assumableRoleRequest.AssumeRolePolicyDocument);
         }
     }
 }

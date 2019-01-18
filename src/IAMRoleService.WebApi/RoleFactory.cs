@@ -7,6 +7,7 @@ using Amazon.IdentityManagement.Model;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 using IAMRoleService.WebApi.Models;
+using Serilog;
 
 namespace IAMRoleService.WebApi
 {
@@ -31,8 +32,8 @@ namespace IAMRoleService.WebApi
             var accountArn = new AwsAccountArn(identityResponse.Account);
 
             var request = CreateStsAssumableRoleRequest(
-                roleName, 
-                accountArn.AccountNumber
+                accountArn.AccountNumber,
+                roleName 
             );
             var response = await _client.CreateRoleAsync(request);
 
