@@ -46,17 +46,22 @@ namespace IAMRoleService.WebApi
             ));
 
             services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-            services.AddTransient(serviceProvider => new AmazonIdentityManagementServiceClient(
+            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider => new AmazonIdentityManagementServiceClient(
                 credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
                 region: serviceProvider.GetRequiredService<RegionEndpoint>()
             ));
 
-            services.AddTransient(serviceProvider => new AmazonSecurityTokenServiceClient(
+            services.AddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
                 credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
                 region: serviceProvider.GetRequiredService<RegionEndpoint>()
             ));
 
+            
+            
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
+            
+            services.AddTransient<IRoleFactory, RoleFactory>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
