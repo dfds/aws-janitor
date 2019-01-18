@@ -32,7 +32,7 @@ namespace IAMRoleService.WebApi
             var accountArn = new AwsAccountArn(identityResponse.Account);
 
             var request = CreateStsAssumableRoleRequest(
-                accountArn.AccountNumber,
+                accountArn.ToString(),
                 roleName 
             );
             var response = await _client.CreateRoleAsync(request);
