@@ -7,7 +7,6 @@ using Amazon.IdentityManagement.Model;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 using IAMRoleService.WebApi.Models;
-using Serilog;
 
 namespace IAMRoleService.WebApi
 {
@@ -32,7 +31,7 @@ namespace IAMRoleService.WebApi
             var accountArn = new AwsAccountArn(identityResponse.Account);
 
             var request = CreateStsAssumableRoleRequest(
-                accountArn.ToString(),
+                accountArn,
                 roleName 
             );
             var response = await _client.CreateRoleAsync(request);
@@ -48,14 +47,17 @@ namespace IAMRoleService.WebApi
 
         
         public CreateRoleRequest CreateStsAssumableRoleRequest(
-            string accountArn,
+            AwsAccountArn accountArn,
             string roleName
         )
         {
             return new CreateRoleRequest
             {
                 RoleName = roleName,
-                AssumeRolePolicyDocument = @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
+                AssumeRolePolicyDocument = 
+                    @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + 
+                    accountArn + 
+                    @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
             }; 
         }
     }

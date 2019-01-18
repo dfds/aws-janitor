@@ -1,3 +1,4 @@
+using IAMRoleService.WebApi.Models;
 using Xunit;
 
 namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
@@ -7,7 +8,7 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
         [Fact]
         public void Will_Set_RoleName()
         {
-            var accountArn = "foo";
+            var accountArn = new AwsAccountArn("foo");
             var roleName = "baa";
             var sut = new RoleFactory(null,null);
 
@@ -25,7 +26,7 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
         //allowed or denied access to a resource. The
         public void will_Allow_Access_for_Account()
         {
-            var accountArn = "foo";
+            var accountArn = new AwsAccountArn("foo");
             var roleName = "baa";
             var sut = new RoleFactory(null,null);
 
@@ -36,6 +37,24 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
 
             // Assert
             var expectedSubstring = @"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
+            Assert.Contains(expectedSubstring, assumableRoleRequest.AssumeRolePolicyDocument);
+        }
+        
+        [Fact]
+        //allowed or denied access to a resource. The
+        public void Account_Amazon_Resource_Name_Will_Point_To_Root()
+        {
+            var accountArn = new AwsAccountArn("foo");
+            var roleName = "baa";
+            var sut = new RoleFactory(null,null);
+
+
+            // Act
+            var assumableRoleRequest = sut.CreateStsAssumableRoleRequest(accountArn, roleName);
+
+
+            // Assert
+            var expectedSubstring = "Principal\":{\"AWS\":\"arn:aws:iam::foo:root\"}";//@"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
             Assert.Contains(expectedSubstring, assumableRoleRequest.AssumeRolePolicyDocument);
         }
     }
