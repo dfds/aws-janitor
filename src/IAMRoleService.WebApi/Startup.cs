@@ -44,24 +44,27 @@ namespace IAMRoleService.WebApi
                 accessKey: Configuration["AWS_ACCESS_KEY_ID"],
                 secretKey: Configuration["AWS_SECRET_ACCESS_KEY"]
             ));
+            var aws_region = Configuration["AWS_REGION"];
+            if (aws_region != null)
+            {
+                services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
+            }
 
-            services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider => new AmazonIdentityManagementServiceClient(
-                credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
-                region: serviceProvider.GetRequiredService<RegionEndpoint>()
-            ));
+            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider =>
+                new AmazonIdentityManagementServiceClient(
+                    credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
+                    region: serviceProvider.GetRequiredService<RegionEndpoint>()
+                ));
 
             services.AddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
                 credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
                 region: serviceProvider.GetRequiredService<RegionEndpoint>()
             ));
 
-            
-            
-            services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
-            
-            services.AddTransient<IRoleFactory, RoleFactory>();
 
+            services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
+
+            services.AddTransient<IRoleFactory, RoleFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,15 +80,12 @@ namespace IAMRoleService.WebApi
             }
 
             app.UseMvc();
-            
+
             app.UseSwagger(x =>
             {
                 const string basePath = "/api";
 
-                x.PreSerializeFilters.Add((doc, req) =>
-                {
-                    doc.BasePath = basePath;
-                });
+                x.PreSerializeFilters.Add((doc, req) => { doc.BasePath = basePath; });
 
                 x.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
                 {
@@ -100,10 +100,7 @@ namespace IAMRoleService.WebApi
                 });
             });
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM Role Service API");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM Role Service API"); });
         }
     }
 }
