@@ -39,5 +39,35 @@ namespace IAMRoleService.WebApi.Tests.Controllers.RoleControllerFacts
                 );
             }
         }
+        
+        [Fact]
+        public async Task Return_200_If_Request_Is_Valid()
+        {
+            using (var builder = new HttpClientBuilder())
+            {
+                // Arrange
+                var client = builder
+                    .WithService<ICreateIAMRoleRequestValidator>(new CreateIAMRoleRequestValidatorStub(true))
+                    .WithService<IRoleFactory>(new RoleFactoryStub())
+                    .WithService(RegionEndpoint.CNNorth1)
+                    .Build();
+
+                
+                // Act
+                var stubInput = "{\"name\":\"foo\"}";
+                var response = await client.PostAsync(
+                    "api/roles", 
+                    new JsonContent(stubInput)
+                );
+                
+                
+                // Assert
+                Assert.Equal(
+                    HttpStatusCode.OK, 
+                    response.StatusCode
+                );
+            }
+        }
+
     }
 }
