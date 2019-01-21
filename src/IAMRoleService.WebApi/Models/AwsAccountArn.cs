@@ -11,7 +11,7 @@ namespace IAMRoleService.WebApi.Models
 
         public override string ToString()
         {
-            return $"arn:aws:iam::{AccountNumber}:root";
+            return $"arn:aws:iam::{AccountNumber}";
         }
     }
 }

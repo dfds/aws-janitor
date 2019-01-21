@@ -54,7 +54,7 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
 
 
             // Assert
-            var expectedSubstring = "Principal\":{\"AWS\":\"arn:aws:iam::foo:root\"}";//@"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
+            var expectedSubstring = "Principal\":{\"Federated\":\"arn:aws:iam::foo:saml-provider/ADFS\"}";//@"{""Effect"":""Allow"",""Principal"":{""AWS"":""" + accountArn + @"""}";
             Assert.Contains(expectedSubstring, assumableRoleRequest.AssumeRolePolicyDocument);
         }
     }

@@ -53,11 +53,13 @@ namespace IAMRoleService.WebApi
         {
             return new CreateRoleRequest
             {
+                
+                
                 RoleName = roleName,
                 AssumeRolePolicyDocument = 
-                    @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""AWS"":""" + 
-                    accountArn + 
-                    @"""},""Action"":""sts:AssumeRole"",""Condition"":{}}]}"
+                    @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""Federated"":""" + 
+                    accountArn + ":saml-provider/ADFS" + 
+                    @"""},""Action"":""sts:AssumeRole"", ""Condition"": {""StringEquals"": {""SAML:aud"": ""https://signin.aws.amazon.com/saml""}}}]}"
             }; 
         }
     }
