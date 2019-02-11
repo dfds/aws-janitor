@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using Amazon;
 using Amazon.IdentityManagement;
-using Amazon.Runtime;
 using Amazon.SecurityToken;
-using IAMRoleService.WebApi.Controllers;
-using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,30 +37,17 @@ namespace IAMRoleService.WebApi
                 c.EnableAnnotations();
             });
 
-            services.AddTransient<AWSCredentials>(serviceProvider => new BasicAWSCredentials(
-                accessKey: Configuration["AWS_ACCESS_KEY_ID"],
-                secretKey: Configuration["AWS_SECRET_ACCESS_KEY"]
-            ));
-            var aws_region = Configuration["AWS_REGION"];
-            if (aws_region != null)
-            {
-                services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-            }
+            services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
 
-            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider =>
-                new AmazonIdentityManagementServiceClient(
-                    credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
+            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider => new AmazonIdentityManagementServiceClient(
                     region: serviceProvider.GetRequiredService<RegionEndpoint>()
                 ));
 
             services.AddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
-                credentials: serviceProvider.GetRequiredService<AWSCredentials>(),
                 region: serviceProvider.GetRequiredService<RegionEndpoint>()
             ));
 
-
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
-
             services.AddTransient<IRoleFactory, RoleFactory>();
         }
 

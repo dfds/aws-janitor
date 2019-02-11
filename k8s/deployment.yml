@@ -17,6 +17,8 @@ spec:
         app: iamroleservice
         project: selfservice
         department: devex
+      annotations:
+        iam.amazonaws.com/role: iamroleservice
     spec:
       containers:
         - name: iamroleservice
@@ -32,15 +34,5 @@ spec:
               memory: "128Mi"
               cpu: "200m"
           env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: iamroleservice
-                  key: aws-access-key-id
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: iamroleservice
-                  key: aws-secret-access-key
             - name: AWS_REGION
               value: $(AWS_REGION)

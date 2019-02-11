@@ -15,10 +15,7 @@ namespace IAMRoleService.WebApi
         private readonly IAmazonIdentityManagementService _client;
         private readonly IAmazonSecurityTokenService _securityTokenServiceClient;
 
-        public RoleFactory(
-            IAmazonIdentityManagementService client, 
-            IAmazonSecurityTokenService securityTokenServiceClient
-        )
+        public RoleFactory(IAmazonIdentityManagementService client, IAmazonSecurityTokenService securityTokenServiceClient)
         {
             _client = client;
             _securityTokenServiceClient = securityTokenServiceClient;
@@ -30,10 +27,7 @@ namespace IAMRoleService.WebApi
             var identityResponse = await _securityTokenServiceClient.GetCallerIdentityAsync(new GetCallerIdentityRequest());
             var accountArn = new AwsAccountArn(identityResponse.Account);
 
-            var request = CreateStsAssumableRoleRequest(
-                accountArn,
-                roleName 
-            );
+            var request = CreateStsAssumableRoleRequest(accountArn, roleName);
             var response = await _client.CreateRoleAsync(request);
 
             if (response.HttpStatusCode != HttpStatusCode.OK)
@@ -46,10 +40,7 @@ namespace IAMRoleService.WebApi
         }
 
         
-        public CreateRoleRequest CreateStsAssumableRoleRequest(
-            AwsAccountArn accountArn,
-            string roleName
-        )
+        public CreateRoleRequest CreateStsAssumableRoleRequest(AwsAccountArn accountArn, string roleName)
         {
             return new CreateRoleRequest
             {
