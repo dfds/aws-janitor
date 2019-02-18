@@ -6,6 +6,8 @@ metadata:
   labels:
     project: selfservice
     department: devex
+    app: iamroleservice
+    component: iamroleservice
 spec:
   replicas: 1
   selector:
