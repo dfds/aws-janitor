@@ -16,9 +16,10 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
             // Arrange
             var createRoleResponse = new CreateRoleResponse();
             createRoleResponse.HttpStatusCode = HttpStatusCode.ServiceUnavailable;
+            createRoleResponse.ResponseMetadata = new ResponseMetadata();
+            createRoleResponse.ResponseMetadata.Metadata["foo"] = "bar";
 
             var amazonIdentityManagementServiceStubBuilder = new AmazonIdentityManagementServiceStubBuilder();
-
 
             var getCallerIdentityResponse = new GetCallerIdentityResponse();
             getCallerIdentityResponse.Account = "AccountDoesNotMatter";
@@ -30,9 +31,8 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse)
             );
 
-
             // Act / Assert
-            Assert.ThrowsAsync<Exception>(() => sut.CreateStsAssumableRoleAsync(roleName));
+            await Assert.ThrowsAsync<Exception>(() => sut.CreateStsAssumableRoleAsync(roleName));
         }
 
 
