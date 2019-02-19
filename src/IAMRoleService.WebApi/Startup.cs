@@ -50,6 +50,7 @@ namespace IAMRoleService.WebApi
 
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
             services.AddTransient<IRoleFactory, RoleFactory>();
+            services.AddTransient<IParameterStore, ParameterStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
