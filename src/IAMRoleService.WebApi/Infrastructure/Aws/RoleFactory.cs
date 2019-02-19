@@ -8,7 +8,7 @@ using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 using IAMRoleService.WebApi.Models;
 
-namespace IAMRoleService.WebApi
+namespace IAMRoleService.WebApi.Infrastructure.Aws
 {
     public class RoleFactory : IRoleFactory
     {

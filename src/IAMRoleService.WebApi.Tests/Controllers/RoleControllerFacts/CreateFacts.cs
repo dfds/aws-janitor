@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon;
+using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Tests.Builders;
 using IAMRoleService.WebApi.Tests.Stubs;
 using IAMRoleService.WebApi.Validators;

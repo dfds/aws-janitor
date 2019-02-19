@@ -2,6 +2,7 @@
 using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.SecurityToken;
+using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

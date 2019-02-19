@@ -2,7 +2,9 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
+using Amazon.Runtime;
 using Amazon.SecurityToken.Model;
+using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Tests.Stubs;
 using Xunit;
 

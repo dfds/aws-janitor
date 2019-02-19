@@ -1,3 +1,4 @@
+using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Models;
 using Xunit;
 

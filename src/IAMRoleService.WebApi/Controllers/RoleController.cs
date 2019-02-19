@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
+using IAMRoleService.WebApi.Infrastructure.Aws;
 
 namespace IAMRoleService.WebApi.Tests.Stubs
 {
