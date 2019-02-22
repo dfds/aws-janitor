@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.4-aspnetcore-runtime-stretch-slim
+FROM microsoft/dotnet:2.2.1-aspnetcore-runtime
 
 WORKDIR /app
 COPY ./output/app ./
