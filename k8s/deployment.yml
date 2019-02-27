@@ -39,9 +39,6 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "200m"
-        env:
-        - name: AWS_REGION
-          value: $(AWS_REGION)
         livenessProbe:
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -56,4 +53,27 @@ spec:
           httpGet:
             port: web
             path: /healthz
+        env:
+        - name: AWS_REGION
+          value: $(AWS_REGION)
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: $(KAFKA_BOOTSTRAP_SERVERS)
+        - name: KAFKA_BROKER_VERSION_FALLBACK
+          value: "0.10.0.0"
+        - name: KAFKA_API_VERSION_FALLBACK_MS
+          value: "0"
+        - name: KAFKA_SASL_USERNAME
+          value: $(KAFKA_SASL_USERNAME)
+        - name: KAFKA_SASL_PASSWORD
+          value: $(KAFKA_SASL_PASSWORD)
+        - name: KAFKA_GROUP_ID
+          value: "$(KAFKA_GROUP_ID)"
+        - name: KAFKA_ENABLE_AUTO_COMMIT
+          value: "false"
+        - name: KAFKA_SASL_MECHANISMS
+          value: "PLAIN"
+        - name: KAFKA_SECURITY_PROTOCOL
+          value: "SASL_SSL"
+
+        
           
