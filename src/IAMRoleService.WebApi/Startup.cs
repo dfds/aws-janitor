@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.SecurityToken;
+using IAMRoleService.WebApi.Domain.Events;
+using IAMRoleService.WebApi.EventHandlers;
 using IAMRoleService.WebApi.Infrastructure.Aws;
+using IAMRoleService.WebApi.Infrastructure.Messaging;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -65,6 +68,33 @@ namespace IAMRoleService.WebApi
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy());
+            
+            ConfigureDomainEvents(services);
+            
+            services.AddHostedService<KafkaConsumerHostedService>();
+        }
+        
+        
+        private static void ConfigureDomainEvents(IServiceCollection services)
+        {
+            var eventRegistry = new DomainEventRegistry();
+            services.AddSingleton(eventRegistry);
+            services.AddTransient<IEventHandler<CapabilityCreatedDomainEvent>, CapabilityCreatedEventHandler>();
+
+
+            services.AddTransient<KafkaConsumerFactory.KafkaConfiguration>();
+            services.AddTransient<KafkaConsumerFactory>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            eventRegistry
+                .Register<CapabilityCreatedDomainEvent>(
+                    eventTypeName: "capability_created",
+                    topicName: "build.capabilities",
+                    eventHandler: serviceProvider.GetRequiredService<IEventHandler<CapabilityCreatedDomainEvent>>());
+
+            services.AddTransient<IEventDispatcher, EventDispatcher>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
