@@ -1,0 +1,5 @@
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+          --data '{"records":[{"value":{"messageId": "ab509002-b295-46c5-80c0-3f0178174927","type": "capability_created", "data": { "capabilityId": "0d03e3ad-2118-46b7-970e-0ca87b59a202", "capabilityName": "build.capabilities1" }}}]}' \
+          "http://localhost:8082/topics/build.capabilities"
+ 
+ ###
