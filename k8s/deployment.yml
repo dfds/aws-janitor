@@ -20,7 +20,7 @@ spec:
         project: selfservice
         department: devex
       annotations:
-        iam.amazonaws.com/role: iamroleservice
+        iam.amazonaws.com/role: eks-hellman-self-service
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
     spec:
