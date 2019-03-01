@@ -21,7 +21,7 @@ namespace IAMRoleService.WebApi.Infrastructure.Aws
             {
                 var request = new GetParameterRequest
                 {
-                    Name = "/eks/turing/default_user",
+                    Name = "/eks/hellman/default_user",
                     WithDecryption = true
                 };
                 var response = await client.GetParameterAsync(request);
