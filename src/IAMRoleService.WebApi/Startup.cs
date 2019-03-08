@@ -9,6 +9,7 @@ using IAMRoleService.WebApi.Domain.Events;
 using IAMRoleService.WebApi.EventHandlers;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Infrastructure.Messaging;
+using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -44,7 +45,7 @@ namespace IAMRoleService.WebApi
                 c.SwaggerDoc("v1", new Info
                 {
                     Title = "IAM Role Service",
-                    Version = "v1.0.0",
+                    Version = "v1.0.0"
                 });
 
                 c.EnableAnnotations();
@@ -62,6 +63,8 @@ namespace IAMRoleService.WebApi
 
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
             services.AddTransient<IRoleFactory, RoleFactory>();
+
+            services.AddSingleton(new KubernetesClusterName(Configuration["KUBERNETES_CLUSTER_NAME"]));
             services.AddTransient<IParameterStore, ParameterStore>();
 
             services.AddHostedService<MetricHostedService>();

@@ -54,6 +54,8 @@ spec:
             port: web
             path: /healthz
         env:
+        - name: KUBERNETES_CLUSTER_NAME
+          value: $(KUBERNETES_CLUSTER_NAME)
         - name: AWS_REGION
           value: $(AWS_REGION)
         - name: KAFKA_BOOTSTRAP_SERVERS
