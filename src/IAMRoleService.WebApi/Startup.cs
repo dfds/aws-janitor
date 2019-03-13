@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon;
-using Amazon.IdentityManagement;
-using Amazon.SecurityToken;
 using IAMRoleService.WebApi.Domain.Events;
 using IAMRoleService.WebApi.EventHandlers;
+using IAMRoleService.WebApi.Features.Roles;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Infrastructure.Messaging;
 using IAMRoleService.WebApi.Models;
-using IAMRoleService.WebApi.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -52,26 +50,16 @@ namespace IAMRoleService.WebApi
             });
 
             services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-
-            services.AddTransient<IAmazonIdentityManagementService>(serviceProvider => new AmazonIdentityManagementServiceClient(
-                    region: serviceProvider.GetRequiredService<RegionEndpoint>()
-                ));
-
-            services.AddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
-                region: serviceProvider.GetRequiredService<RegionEndpoint>()
-            ));
-
-            services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
-            services.AddTransient<IRoleFactory, RoleFactory>();
-
             services.AddSingleton(new KubernetesClusterName(Configuration["KUBERNETES_CLUSTER_NAME"]));
             services.AddTransient<IParameterStore, ParameterStore>();
+
+            RolesServicesConfiguration.ConfigureServices(services);
 
             services.AddHostedService<MetricHostedService>();
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy());
-            
+                    
             ConfigureDomainEvents(services);
             
             services.AddHostedService<KafkaConsumerHostedService>();

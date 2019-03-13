@@ -44,8 +44,6 @@ namespace IAMRoleService.WebApi.Infrastructure.Aws
         {
             return new CreateRoleRequest
             {
-                
-                
                 RoleName = roleName,
                 AssumeRolePolicyDocument = 
                     @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""Federated"":""" + 

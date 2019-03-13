@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using IAMRoleService.WebApi.Features.Roles;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
@@ -12,15 +13,15 @@ namespace IAMRoleService.WebApi.Controllers
     public class RoleController : ControllerBase
     {
         private readonly ICreateIAMRoleRequestValidator _createIAMRoleRequestValidator;
-        private readonly IRoleFactory _roleFactory;
+        private readonly IAwsIdentityClient _awsIdentityClient;
 
         public RoleController(
             ICreateIAMRoleRequestValidator  createIamRoleRequestValidator, 
-            IRoleFactory roleFactory
+            IAwsIdentityClient awsIdentityClient
         )
         {
             _createIAMRoleRequestValidator = createIamRoleRequestValidator;
-            _roleFactory = roleFactory;
+            _awsIdentityClient = awsIdentityClient;
         }
 
 
@@ -41,7 +42,7 @@ namespace IAMRoleService.WebApi.Controllers
                 return BadRequest(validationError);
             }
 
-            var role = await _roleFactory.CreateStsAssumableRoleAsync(input.Name);
+            var role = await _awsIdentityClient.PutRoleAsync(input.Name);
          
             return Ok(new
             {
