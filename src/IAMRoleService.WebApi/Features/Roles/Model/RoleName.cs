@@ -33,11 +33,7 @@ namespace IAMRoleService.WebApi.Features.Roles.Model
             _name = name;
         }
 
-        public static implicit operator RoleName(string name)
-        {
-            return name == null ? null : new RoleName(name);
-        }
-
+      
         public static implicit operator string(RoleName roleName)
         {
             return roleName?._name;
