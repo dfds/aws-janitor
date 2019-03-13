@@ -7,6 +7,7 @@ using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
+using IAMRoleService.WebApi.Features.Roles.Model;
 using IAMRoleService.WebApi.Models;
 
 namespace IAMRoleService.WebApi.Features.Roles
@@ -29,7 +30,7 @@ namespace IAMRoleService.WebApi.Features.Roles
         }
 
 
-        public async Task<Role> PutRoleAsync(string roleName)
+        public async Task<Role> PutRoleAsync(RoleName roleName)
         {
             var role = await EnsureRoleExistsAsync(roleName);
 
@@ -39,13 +40,13 @@ namespace IAMRoleService.WebApi.Features.Roles
             return role;
         }
 
-        public async Task<Role> EnsureRoleExistsAsync(string roleName)
+        public async Task<Role> EnsureRoleExistsAsync(RoleName roleName)
         {
             var identityResponse =
                 await _securityTokenServiceClient.GetCallerIdentityAsync(new GetCallerIdentityRequest());
             var accountArn = new AwsAccountArn(identityResponse.Account);
 
-            var request = CreateStsAssumableRoleRequest(accountArn, roleName);
+            var request = CreateRoleRequest(accountArn, roleName);
 
             try
             {
@@ -72,11 +73,17 @@ namespace IAMRoleService.WebApi.Features.Roles
         }
 
 
-        public CreateRoleRequest CreateStsAssumableRoleRequest(AwsAccountArn accountArn, string roleName)
+        public CreateRoleRequest CreateRoleRequest(AwsAccountArn accountArn, RoleName roleName)
         {
             return new CreateRoleRequest
             {
                 RoleName = roleName,
+                Tags = new List<Tag>
+                {
+                    new Tag{Key = "managed-by",Value = "AWS-Janitor"},
+                    new Tag{Key = "capability",Value = roleName}
+                },
+                Description = $"sts assumable role for capability: '{roleName}'. Managed by AWS-Janitor",
                 AssumeRolePolicyDocument =
                     @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""Federated"":""" +
                     accountArn + ":saml-provider/ADFS" +
@@ -84,7 +91,7 @@ namespace IAMRoleService.WebApi.Features.Roles
             };
         }
 
-        private async Task PutRolePoliciesAsync(string roleName)
+        private async Task PutRolePoliciesAsync(RoleName roleName)
         {
             var policies = await _policyRepository.GetLatestAsync();
             var tasks = new List<Task>();
@@ -92,7 +99,7 @@ namespace IAMRoleService.WebApi.Features.Roles
             {
                 tasks.Add(Task.Run(async () =>
                     {
-                        var policyDocumentWithRoleName = policy.Document.Replace("teamName", roleName.ToLower());
+                        var policyDocumentWithRoleName = policy.Document.Replace("teamName", roleName);
                         var rolePolicyRequest = new PutRolePolicyRequest
                         {
                             RoleName = roleName,
@@ -107,7 +114,7 @@ namespace IAMRoleService.WebApi.Features.Roles
             Task.WaitAll(tasks.ToArray());
         }
 
-        public async Task DeleteRoleAsync(string roleName)
+        public async Task DeleteRoleAsync(RoleName roleName)
         {
             var policiesResponse =
                 await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});

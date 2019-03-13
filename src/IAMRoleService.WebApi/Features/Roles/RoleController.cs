@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using IAMRoleService.WebApi.Features.Roles;
+using IAMRoleService.WebApi.Features.Roles.Model;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Models;
 using IAMRoleService.WebApi.Validators;
@@ -42,7 +43,8 @@ namespace IAMRoleService.WebApi.Controllers
                 return BadRequest(validationError);
             }
 
-            var role = await _awsIdentityClient.PutRoleAsync(input.Name);
+            var roleName = RoleName.Create(input.Name);
+            var role = await _awsIdentityClient.PutRoleAsync(roleName);
          
             return Ok(new
             {
