@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon;
+using IAMRoleService.WebApi.Features.Roles;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Tests.Builders;
 using IAMRoleService.WebApi.Tests.Stubs;
@@ -49,7 +50,7 @@ namespace IAMRoleService.WebApi.Tests.Controllers.RoleControllerFacts
                 // Arrange
                 var client = builder
                     .WithService<ICreateIAMRoleRequestValidator>(new CreateIAMRoleRequestValidatorStub(true))
-                    .WithService<IRoleFactory>(new RoleFactoryStub())
+                    .WithService<IAwsIdentityClient>(new AwsIdentityClientStub())
                     .WithService(RegionEndpoint.CNNorth1)
                     .Build();
 

@@ -26,7 +26,7 @@ namespace IAMRoleService.IntegrationTests.Features.Roles
                 amazonSecurityTokenServiceClient,
                 fakePolicyRepository);
 
-            var roleName = "test-role-do-delete";
+            var roleName = RoleName.Create("test-role-do-delete");
             
             try
             {
