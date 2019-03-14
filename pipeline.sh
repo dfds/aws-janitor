@@ -11,7 +11,7 @@ readonly REGION=${AWS_DEFAULT_REGION:-"eu-central-1"}
 readonly IMAGE_NAME='iamroleservice'
 readonly BUILD_NUMBER=${1:-"N/A"}
 readonly BUILD_SOURCES_DIRECTORY=${2:-${PWD}}
-readonly SERVICE_NAME="IAMRoleService"
+readonly SERVICE_NAME="AwsJanitor"
 
 clean_output_folder() {
     rm -Rf ./output
