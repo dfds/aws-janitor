@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon;
+using IAMRoleService.WebApi.Controllers;
 using IAMRoleService.WebApi.Domain.Events;
 using IAMRoleService.WebApi.EventHandlers;
 using IAMRoleService.WebApi.Features.Roles;
-using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Infrastructure.Messaging;
-using IAMRoleService.WebApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -49,23 +47,22 @@ namespace IAMRoleService.WebApi
                 c.EnableAnnotations();
             });
 
-            services.AddTransient(serviceProvider => RegionEndpoint.GetBySystemName(Configuration["AWS_REGION"]));
-            services.AddSingleton(new KubernetesClusterName(Configuration["KUBERNETES_CLUSTER_NAME"]));
-            services.AddTransient<IParameterStore, ParameterStore>();
 
             RolesServicesConfiguration.ConfigureServices(services);
+
+            ParameterStoreServicesConfiguration.ConfigureServices(Configuration, services);
 
             services.AddHostedService<MetricHostedService>();
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy());
-                    
+
             ConfigureDomainEvents(services);
-            
+
             services.AddHostedService<KafkaConsumerHostedService>();
         }
-        
-        
+
+
         private static void ConfigureDomainEvents(IServiceCollection services)
         {
             var eventRegistry = new DomainEventRegistry();
@@ -85,7 +82,6 @@ namespace IAMRoleService.WebApi
                     eventHandler: serviceProvider.GetRequiredService<IEventHandler<CapabilityCreatedDomainEvent>>());
 
             services.AddTransient<IEventDispatcher, EventDispatcher>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,9 +160,10 @@ namespace IAMRoleService.WebApi
         static MyPrometheusStuff()
         {
             HealthChecksResult = Metrics.CreateGauge("healthcheck",
-                "Shows health check status (status=unhealthy|degraded|healthy) 1 for triggered, otherwise 0", new GaugeConfiguration
+                "Shows health check status (status=unhealthy|degraded|healthy) 1 for triggered, otherwise 0",
+                new GaugeConfiguration
                 {
-                    LabelNames = new[] { HealthCheckLabelServiceName, HealthCheckLabelStatusName },
+                    LabelNames = new[] {HealthCheckLabelServiceName, HealthCheckLabelStatusName},
                     SuppressInitialValue = false
                 });
 
@@ -174,7 +171,7 @@ namespace IAMRoleService.WebApi
                 "Shows duration of the health check execution in seconds",
                 new GaugeConfiguration
                 {
-                    LabelNames = new[] { HealthCheckLabelServiceName },
+                    LabelNames = new[] {HealthCheckLabelServiceName},
                     SuppressInitialValue = false
                 });
         }
