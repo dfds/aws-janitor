@@ -1,3 +1,5 @@
+using IAMRoleService.WebApi.Features.Roles;
+using IAMRoleService.WebApi.Features.Roles.Model;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Models;
 using Xunit;
@@ -10,12 +12,12 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
         public void Will_Set_RoleName()
         {
             var accountArn = new AwsAccountArn("foo");
-            var roleName = "baa";
-            var sut = new RoleFactory(null,null);
+            var roleName = new RoleName("baa");
+            var sut = new AwsIdentityClient(null,null, null);
 
 
             // Act
-            var assumableRoleRequest = sut.CreateStsAssumableRoleRequest(accountArn, roleName);
+            var assumableRoleRequest = sut.CreateRoleRequest(accountArn, roleName);
 
 
             // Assert
@@ -27,12 +29,12 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
         public void Principal_Will_Point_To_Federated_Login()
         {
             var accountArn = new AwsAccountArn("foo");
-            var roleName = "baa";
-            var sut = new RoleFactory(null,null);
+            var roleName = new RoleName("baa");
+            var sut = new AwsIdentityClient(null,null, null);
 
 
             // Act
-            var assumableRoleRequest = sut.CreateStsAssumableRoleRequest(accountArn, roleName);
+            var assumableRoleRequest = sut.CreateRoleRequest(accountArn, roleName);
 
 
             // Assert

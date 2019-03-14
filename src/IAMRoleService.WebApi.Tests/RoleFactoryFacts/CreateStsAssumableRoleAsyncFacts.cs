@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
 using Amazon.SecurityToken.Model;
+using IAMRoleService.WebApi.Features.Roles;
+using IAMRoleService.WebApi.Features.Roles.Infrastructure.Persistence;
+using IAMRoleService.WebApi.Features.Roles.Model;
 using IAMRoleService.WebApi.Infrastructure.Aws;
 using IAMRoleService.WebApi.Tests.Stubs;
 using Xunit;
@@ -28,13 +31,14 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
-            var sut = new RoleFactory(
+            var sut = new AwsIdentityClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
-                amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse)
+                amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
+                new PolicyRepositoryStub()
             );
 
             // Act / Assert
-            await Assert.ThrowsAsync<Exception>(() => sut.CreateStsAssumableRoleAsync(roleName));
+            await Assert.ThrowsAsync<Exception>(() => sut.PutRoleAsync(new RoleName(roleName)));
         }
 
 
@@ -54,14 +58,15 @@ namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
-            var sut = new RoleFactory(
+            var sut = new AwsIdentityClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
-                amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse)
+                amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
+                new PolicyRepositoryStub()
             );
 
 
             // Act 
-            var resultRole = await sut.CreateStsAssumableRoleAsync(roleName);
+            var resultRole = await sut.PutRoleAsync(new RoleName(roleName));
 
 
             // Assert
