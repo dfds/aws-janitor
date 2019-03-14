@@ -1,0 +1,38 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeReservedCapacityOfferings",
+        "dynamodb:ListGlobalTables",
+        "dynamodb:TagResource",
+        "dynamodb:UntagResource",
+        "dynamodb:ListTables",
+        "dynamodb:DescribeReservedCapacity",
+        "dynamodb:ListBackups",
+        "dynamodb:PurchaseReservedCapacityOfferings",
+        "dynamodb:ListTagsOfResource",
+        "dynamodb:DescribeTimeToLive",
+        "dynamodb:DescribeLimits",
+        "dynamodb:ListStreams"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": [
+        "arn:aws:dynamodb:::table/capabilityName*/backup/",
+        "arn:aws:dynamodb:::table/capabilityName*/stream/",
+        "arn:aws:dynamodb:::table/capabilityName*/index/",
+        "arn:aws:dynamodb:::global-table/capacityName*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": "arn:aws:dynamodb:::table/capabilityName*"
+    }
+  ]
+}
