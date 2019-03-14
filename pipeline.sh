@@ -40,7 +40,7 @@ run_tests() {
 
 publish_binaries() {
     echo "Publishing binaries..."
-    dotnet publish -c Release -o ${BUILD_SOURCES_DIRECTORY}/output/app ${SERVICE_NAME}.WebApi/${SERVICE_NAME}.WebApi.csproj
+    dotnet publish -c Release -o ${BUILD_SOURCES_DIRECTORY}/output/app AwsJanitor.WebApi/AwsJanitor.WebApi.csproj
 }
 
 build_container_image() {
