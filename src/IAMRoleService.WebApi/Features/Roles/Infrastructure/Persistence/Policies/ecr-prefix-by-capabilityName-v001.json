@@ -15,7 +15,7 @@
     {
       "Effect": "Allow",
       "Action": "ecr:*",
-      "Resource": "arn:aws:ecr:*:*:repository/teamName/*"
+      "Resource": "arn:aws:ecr:*:*:repository/capabilityName/*"
     }
   ]
 }

@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\ecr-teamName-v001.json">
+    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\ecr-prefix-by-capabilityName-v001.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\s3-teamName-v001.json">
+    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\s3-prefix-by-capabilityName-v001.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -9,7 +9,7 @@
     {
       "Effect": "Allow",
       "Action": "s3:*",
-      "Resource": "arn:aws:s3:::teamName-*"
+      "Resource": "arn:aws:s3:::capabilityName-*"
     }
   ]
 }

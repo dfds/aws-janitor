@@ -99,7 +99,7 @@ namespace IAMRoleService.WebApi.Features.Roles
             {
                 tasks.Add(Task.Run(async () =>
                     {
-                        var policyDocumentWithRoleName = policy.Document.Replace("teamName", roleName);
+                        var policyDocumentWithRoleName = policy.Document.Replace("capabilityName", roleName);
                         var rolePolicyRequest = new PutRolePolicyRequest
                         {
                             RoleName = roleName,
