@@ -29,13 +29,13 @@ run_tests() {
 
     MSYS_NO_PATHCONV=1 dotnet test \
         --logger:"trx;LogFileName=testresults.trx" \
-        IAMRoleService.WebApi.Tests/IAMRoleService.WebApi.Tests.csproj \
+        AwsJanitor.WebApi.Tests/AwsJanitor.WebApi.Tests.csproj \
         /p:CollectCoverage=true \
         /p:CoverletOutputFormat=cobertura \
         '/p:Include="[AwsJanitor.WebApi]*"'
 
-    mv ./IAMRoleService.WebApi.Tests/coverage.cobertura.xml "${BUILD_SOURCES_DIRECTORY}/output/"
-    mv ./IAMRoleService.WebApi.Tests/TestResults/testresults.trx "${BUILD_SOURCES_DIRECTORY}/output/"
+    mv ./AwsJanitor.WebApi.Tests/coverage.cobertura.xml "${BUILD_SOURCES_DIRECTORY}/output/"
+    mv ./AwsJanitor.WebApi.Tests/TestResults/testresults.trx "${BUILD_SOURCES_DIRECTORY}/output/"
 }
 
 publish_binaries() {

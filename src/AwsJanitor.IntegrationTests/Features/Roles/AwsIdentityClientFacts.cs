@@ -8,7 +8,7 @@ using AwsJanitor.WebApi.Features.Roles;
 using AwsJanitor.WebApi.Features.Roles.Model;
 using Xunit;
 
-namespace IAMRoleService.IntegrationTests.Features.Roles
+namespace AwsJanitor.IntegrationTests.Features.Roles
 {
     public class AwsIdentityClientFacts
     {

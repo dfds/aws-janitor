@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet watch --project ./../src/IAMRoleService.WebApi.Tests/IAMRoleService.WebApi.Tests.csproj test
+dotnet watch --project ./../src/AwsJanitor.WebApi.Tests/AwsJanitor.WebApi.Tests.csproj test
