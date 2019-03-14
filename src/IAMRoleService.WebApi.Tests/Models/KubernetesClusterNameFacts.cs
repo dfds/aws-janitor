@@ -1,7 +1,7 @@
-using IAMRoleService.WebApi.Models;
+using AwsJanitor.WebApi.Models;
 using Xunit;
 
-namespace IAMRoleService.WebApi.Tests.Models
+namespace AwsJanitor.WebApi.Tests.Models
 {
     public class KubernetesClusterNameFacts
     {

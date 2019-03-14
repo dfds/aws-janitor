@@ -1,12 +1,12 @@
 using System.Net;
 using System.Threading.Tasks;
-using IAMRoleService.WebApi.Controllers;
-using IAMRoleService.WebApi.Infrastructure.Aws;
-using IAMRoleService.WebApi.Tests.Builders;
-using IAMRoleService.WebApi.Tests.Stubs;
+using AwsJanitor.WebApi.Controllers;
+using AwsJanitor.WebApi.Infrastructure.Aws;
+using AwsJanitor.WebApi.Tests.Builders;
+using AwsJanitor.WebApi.Tests.Stubs;
 using Xunit;
 
-namespace IAMRoleService.WebApi.Tests.Controllers
+namespace AwsJanitor.WebApi.Tests.Controllers
 {
     public class ConfigControllerFacts
     {

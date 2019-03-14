@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using IAMRoleService.WebApi.Infrastructure.Aws;
+using AwsJanitor.WebApi.Infrastructure.Aws;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class ParameterStoreStub : IParameterStore
     {

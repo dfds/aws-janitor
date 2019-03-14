@@ -1,9 +1,9 @@
 using System;
 using Xunit;
-using IAMRoleService.WebApi.Models;
-using IAMRoleService.WebApi.Validators;
+using AwsJanitor.WebApi.Models;
+using AwsJanitor.WebApi.Validators;
 
-namespace IAMRoleService.WebApi.Tests
+namespace AwsJanitor.WebApi.Tests
 {
     public class CreateIAMRoleRequestValidatorTest
     {

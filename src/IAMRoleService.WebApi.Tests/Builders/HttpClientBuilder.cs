@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace IAMRoleService.WebApi.Tests.Builders
+namespace AwsJanitor.WebApi.Tests.Builders
 {
     public class HttpClientBuilder :IDisposable
     {

@@ -2,14 +2,14 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon;
-using IAMRoleService.WebApi.Features.Roles;
-using IAMRoleService.WebApi.Infrastructure.Aws;
-using IAMRoleService.WebApi.Tests.Builders;
-using IAMRoleService.WebApi.Tests.Stubs;
-using IAMRoleService.WebApi.Validators;
+using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Infrastructure.Aws;
+using AwsJanitor.WebApi.Tests.Builders;
+using AwsJanitor.WebApi.Tests.Stubs;
+using AwsJanitor.WebApi.Validators;
 using Xunit;
 
-namespace IAMRoleService.WebApi.Tests.Controllers.RoleControllerFacts
+namespace AwsJanitor.WebApi.Tests.Controllers.RoleControllerFacts
 {
     // RoleController / Create Will..
     public class CreateFacts

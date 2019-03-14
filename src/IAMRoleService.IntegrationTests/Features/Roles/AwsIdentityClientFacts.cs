@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.SecurityToken;
-using IAMRoleService.WebApi.Features.Roles;
-using IAMRoleService.WebApi.Features.Roles.Model;
+using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Features.Roles.Model;
 using Xunit;
 
 namespace IAMRoleService.IntegrationTests.Features.Roles

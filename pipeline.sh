@@ -32,7 +32,7 @@ run_tests() {
         IAMRoleService.WebApi.Tests/IAMRoleService.WebApi.Tests.csproj \
         /p:CollectCoverage=true \
         /p:CoverletOutputFormat=cobertura \
-        '/p:Include="[IAMRoleService.WebApi]*"'
+        '/p:Include="[AwsJanitor.WebApi]*"'
 
     mv ./IAMRoleService.WebApi.Tests/coverage.cobertura.xml "${BUILD_SOURCES_DIRECTORY}/output/"
     mv ./IAMRoleService.WebApi.Tests/TestResults/testresults.trx "${BUILD_SOURCES_DIRECTORY}/output/"

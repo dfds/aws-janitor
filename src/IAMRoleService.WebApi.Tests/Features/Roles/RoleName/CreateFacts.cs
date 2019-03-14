@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
+namespace AwsJanitor.WebApi.Tests.Features.Roles.RoleName
 {
     // Reads RoleName create will:
     public class CreateFacts
@@ -14,7 +14,7 @@ namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
             // Act / Assert
             Assert.Throws<ArgumentException>(() =>
             {
-                IAMRoleService.WebApi.Features.Roles.Model.RoleName.Create(subject); });
+                AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject); });
         }
         
         
@@ -27,7 +27,7 @@ namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
             // Act / Assert
             Assert.Throws<ArgumentException>(() =>
             {
-                IAMRoleService.WebApi.Features.Roles.Model.RoleName.Create(subject); });
+                AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject); });
         }
         
               
@@ -38,7 +38,7 @@ namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
             var subject = "1 2 3 4";
             
             // Act 
-            var roleName = IAMRoleService.WebApi.Features.Roles.Model.RoleName.Create(subject);
+            var roleName = AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject);
             
             // Assert
             var expectedRoleName = "1-2-3-4";
@@ -53,7 +53,7 @@ namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
             var subject = "ABCD";
             
             // Act 
-            var roleName = IAMRoleService.WebApi.Features.Roles.Model.RoleName.Create(subject);
+            var roleName = AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject);
             
             // Assert
             var expectedRoleName = "abcd";
@@ -70,7 +70,7 @@ namespace IAMRoleService.WebApi.Tests.Features.Roles.RoleName
             var subject = "#¤%/()";
             
             // Act
-            var roleName = IAMRoleService.WebApi.Features.Roles.Model.RoleName.Create(subject);
+            var roleName = AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject);
             
             // Assert
             var expectedRoleName = "";

@@ -1,8 +1,8 @@
 using System;
-using IAMRoleService.WebApi.Models;
-using IAMRoleService.WebApi.Validators;
+using AwsJanitor.WebApi.Models;
+using AwsJanitor.WebApi.Validators;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class CreateIAMRoleRequestValidatorStub : ICreateIAMRoleRequestValidator
     {

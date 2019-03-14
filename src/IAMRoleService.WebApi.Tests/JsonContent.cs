@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text;
 
-namespace IAMRoleService.WebApi.Tests
+namespace AwsJanitor.WebApi.Tests
 {
     public class JsonContent : StringContent
     {

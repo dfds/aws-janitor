@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
-using IAMRoleService.WebApi.Features.Roles;
-using IAMRoleService.WebApi.Features.Roles.Model;
+using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Features.Roles.Model;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class AwsIdentityClientStub :IAwsIdentityClient
     {

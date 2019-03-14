@@ -1,10 +1,10 @@
-using IAMRoleService.WebApi.Features.Roles;
-using IAMRoleService.WebApi.Features.Roles.Model;
-using IAMRoleService.WebApi.Infrastructure.Aws;
-using IAMRoleService.WebApi.Models;
+using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Features.Roles.Model;
+using AwsJanitor.WebApi.Infrastructure.Aws;
+using AwsJanitor.WebApi.Models;
 using Xunit;
 
-namespace IAMRoleService.WebApi.Tests.RoleFactoryFacts
+namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
 {
     public class CreateStsAssumableRoleRequestFacts
     {

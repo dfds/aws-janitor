@@ -4,7 +4,7 @@ using Amazon.Runtime;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class AmazonSecurityTokenServiceStub : IAmazonSecurityTokenService
     {

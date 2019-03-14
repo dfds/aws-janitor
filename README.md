@@ -60,6 +60,6 @@ $ dotnet build
 Followed by:
 
 ```shell
-$ dotnet run --project IAMRoleService.WebApi/IAMRoleService.WebApi.csproj
+$ dotnet run --project AwsJanitor.WebApi/AwsJanitor.WebApi.csproj
 ```
 

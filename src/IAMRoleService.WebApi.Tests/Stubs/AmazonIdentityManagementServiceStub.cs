@@ -5,7 +5,7 @@ using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.Runtime;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class AmazonIdentityManagementServiceStub : IAmazonIdentityManagementService
     {

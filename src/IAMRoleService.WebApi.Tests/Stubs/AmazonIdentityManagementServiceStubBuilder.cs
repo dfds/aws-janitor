@@ -1,6 +1,6 @@
 using Amazon.IdentityManagement.Model;
 
-namespace IAMRoleService.WebApi.Tests.Stubs
+namespace AwsJanitor.WebApi.Tests.Stubs
 {
     public class AmazonIdentityManagementServiceStubBuilder
     {
