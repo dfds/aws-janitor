@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: iamroleservice
+  name: aws-janitor
   namespace: $(kubernetes-namespace)
   labels:
     project: selfservice
     department: devex
-    app: iamroleservice
-    component: iamroleservice
+    app: aws-janitor
+    component: aws-janitor
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: iamroleservice
+      app: aws-janitor
   template:
     metadata:
       labels:
-        app: iamroleservice
+        app: aws-janitor
         project: selfservice
         department: devex
       annotations:
@@ -25,8 +25,8 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       containers:
-      - name: iamroleservice
-        image: 579478677147.dkr.ecr.eu-central-1.amazonaws.com/ded/iamroleservice:$(Build.BuildId)
+      - name: aws-janitor
+        image: 579478677147.dkr.ecr.eu-central-1.amazonaws.com/ded/aws-janitor:$(Build.BuildId)
         ports:
         - containerPort: 80
           name: web

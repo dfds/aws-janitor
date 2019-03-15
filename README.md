@@ -1,5 +1,5 @@
 # IAM Role Service
-[![Build Status](https://dfds.visualstudio.com/DevelopmentExcellence/_apis/build/status/iamroleservice-ci)](https://dfds.visualstudio.com/DevelopmentExcellence/_build/latest?definitionId=961)
+[![Build Status](https://dfds.visualstudio.com/DevelopmentExcellence/_apis/build/status/aws-janitor-ci)](https://dfds.visualstudio.com/DevelopmentExcellence/_build/latest?definitionId=961)
 
 A small service for creating IAM roles in AWS through an API.
 
@@ -41,7 +41,7 @@ __Please note:__ the script above is a linux bash script and needs a bash runtim
 Now you should be able to start a container by running the following on your command line:
 
 ```shell
-$ docker run -it --rm -p 8080:80 iamroleservice
+$ docker run -it --rm -p 8080:80 aws-janitor
 ```
 
 You should be able to navigate to `http://localhost:8080` in a browser.
