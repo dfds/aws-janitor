@@ -14,6 +14,9 @@ namespace AwsJanitor.WebApi.Features.Roles
 {
     public class AwsIdentityClient : IDisposable, IAwsIdentityClient
     {
+        private const  string MANAGED_BY = "managed-by";
+        private const  string AWS_JANITOR = "AWS-Janitor";
+
         private readonly IAmazonIdentityManagementService _client;
         private readonly IAmazonSecurityTokenService _securityTokenServiceClient;
         private readonly IPolicyRepository _policyRepository;
@@ -38,6 +41,24 @@ namespace AwsJanitor.WebApi.Features.Roles
 
             
             return role;
+        }
+
+        
+        public  async Task<IEnumerable<Role>> GetRolesAsync()
+        {
+            var listRolesResponse = await _client.ListRolesAsync(new ListRolesRequest());
+
+            var managedByJanitorRoles =
+                listRolesResponse.
+                    Roles.
+                    Where(r => 
+                        r.Tags.Any(t => 
+                            t.Key == MANAGED_BY && 
+                            t.Value == AWS_JANITOR
+                        )
+                    );
+
+            return managedByJanitorRoles;
         }
 
         public async Task<Role> EnsureRoleExistsAsync(RoleName roleName)
@@ -80,7 +101,7 @@ namespace AwsJanitor.WebApi.Features.Roles
                 RoleName = roleName,
                 Tags = new List<Tag>
                 {
-                    new Tag{Key = "managed-by",Value = "AWS-Janitor"},
+                    new Tag{Key = MANAGED_BY,Value = AWS_JANITOR},
                     new Tag{Key = "capability",Value = roleName}
                 },
                 Description = $"sts assumable role for capability: '{roleName}'. Managed by AWS-Janitor",

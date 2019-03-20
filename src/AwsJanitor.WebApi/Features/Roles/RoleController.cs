@@ -17,7 +17,7 @@ namespace AwsJanitor.WebApi.Controllers
         private readonly IAwsIdentityClient _awsIdentityClient;
 
         public RoleController(
-            ICreateIAMRoleRequestValidator  createIamRoleRequestValidator, 
+            ICreateIAMRoleRequestValidator createIamRoleRequestValidator,
             IAwsIdentityClient awsIdentityClient
         )
         {
@@ -25,6 +25,11 @@ namespace AwsJanitor.WebApi.Controllers
             _awsIdentityClient = awsIdentityClient;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(_awsIdentityClient.GetRolesAsync());
+        }
 
         [HttpPost("")]
         [SwaggerOperation(
@@ -35,7 +40,7 @@ namespace AwsJanitor.WebApi.Controllers
         [SwaggerResponse(400, "The role name is invalid.")]
         [SwaggerResponse(500, "An error occured trying to create the IAM role.")]
         public async Task<IActionResult> Create([FromBody, SwaggerParameter("Create role request.", Required = true)]
-                                                CreateIAMRoleRequest input)
+            CreateIAMRoleRequest input)
         {
             if (!_createIAMRoleRequestValidator.TryValidateCreateRoleRequest(input, out string validationError))
             {
@@ -45,7 +50,7 @@ namespace AwsJanitor.WebApi.Controllers
 
             var roleName = RoleName.Create(input.Name);
             var role = await _awsIdentityClient.PutRoleAsync(roleName);
-         
+
             return Ok(new
             {
                 RoleArn = role.Arn

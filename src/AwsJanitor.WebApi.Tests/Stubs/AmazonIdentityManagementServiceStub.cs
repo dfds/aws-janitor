@@ -11,6 +11,7 @@ namespace AwsJanitor.WebApi.Tests.Stubs
     {
         public IClientConfig Config { get; }
         public CreateRoleResponse CreateRoleResponse { get; set; }
+        public List<Role> Roles { get; set; }
 
         public void Dispose()
         {
@@ -633,12 +634,12 @@ namespace AwsJanitor.WebApi.Tests.Stubs
 
         public Task<ListRolesResponse> ListRolesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(new ListRolesResponse{Roles = Roles});
         }
 
         public Task<ListRolesResponse> ListRolesAsync(ListRolesRequest request, CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(new ListRolesResponse{Roles = Roles});
         }
 
         public Task<ListRoleTagsResponse> ListRoleTagsAsync(ListRoleTagsRequest request, CancellationToken cancellationToken = new CancellationToken())

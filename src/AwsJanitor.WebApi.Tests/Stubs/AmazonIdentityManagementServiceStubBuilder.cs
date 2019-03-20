@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Amazon.IdentityManagement.Model;
 
 namespace AwsJanitor.WebApi.Tests.Stubs
@@ -8,6 +10,13 @@ namespace AwsJanitor.WebApi.Tests.Stubs
         public AmazonIdentityManagementServiceStub WithCreateRoleResponse(CreateRoleResponse createRoleResponse)
         {
             _amazonIdentityManagementServiceStub.CreateRoleResponse = createRoleResponse;
+
+            return _amazonIdentityManagementServiceStub;
+        }
+        
+        public AmazonIdentityManagementServiceStub WithRoles(IEnumerable<Role> roles)
+        {
+            _amazonIdentityManagementServiceStub.Roles = roles.ToList();
 
             return _amazonIdentityManagementServiceStub;
         }
