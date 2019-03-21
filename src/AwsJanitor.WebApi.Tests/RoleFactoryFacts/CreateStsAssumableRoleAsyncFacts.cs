@@ -31,7 +31,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
-            var sut = new AwsIdentityClient(
+            var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
                 new PolicyRepositoryStub()
@@ -58,7 +58,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
-            var sut = new AwsIdentityClient(
+            var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
                 new PolicyRepositoryStub()

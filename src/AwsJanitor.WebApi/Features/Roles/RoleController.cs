@@ -14,21 +14,21 @@ namespace AwsJanitor.WebApi.Controllers
     public class RoleController : ControllerBase
     {
         private readonly ICreateIAMRoleRequestValidator _createIAMRoleRequestValidator;
-        private readonly IAwsIdentityClient _awsIdentityClient;
+        private readonly IAwsIdentityCommandClient _awsIdentityCommandClient;
 
         public RoleController(
             ICreateIAMRoleRequestValidator createIamRoleRequestValidator,
-            IAwsIdentityClient awsIdentityClient
+            IAwsIdentityCommandClient awsIdentityCommandClient
         )
         {
             _createIAMRoleRequestValidator = createIamRoleRequestValidator;
-            _awsIdentityClient = awsIdentityClient;
+            _awsIdentityCommandClient = awsIdentityCommandClient;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            var roles = await _awsIdentityClient.GetRolesAsync();
+            var roles = await _awsIdentityCommandClient.GetRolesAsync();
             return Ok(roles);
         }
 
@@ -50,7 +50,7 @@ namespace AwsJanitor.WebApi.Controllers
             }
 
             var roleName = RoleName.Create(input.Name);
-            var role = await _awsIdentityClient.PutRoleAsync(roleName);
+            var role = await _awsIdentityCommandClient.PutRoleAsync(roleName);
 
             return Ok(new
             {

@@ -50,7 +50,7 @@ namespace AwsJanitor.WebApi.Tests.Controllers.RoleControllerFacts
                 // Arrange
                 var client = builder
                     .WithService<ICreateIAMRoleRequestValidator>(new CreateIAMRoleRequestValidatorStub(true))
-                    .WithService<IAwsIdentityClient>(new AwsIdentityClientStub())
+                    .WithService<IAwsIdentityCommandClient>(new AwsIdentityCommandClientStub())
                     .WithService(RegionEndpoint.CNNorth1)
                     .Build();
 

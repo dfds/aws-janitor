@@ -21,7 +21,7 @@ namespace AwsJanitor.WebApi.Features.Roles
             
             services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
 
-            services.AddTransient<IAwsIdentityClient, AwsIdentityClient>();
+            services.AddTransient<IAwsIdentityCommandClient, AwsIdentityCommandClient>();
 
             services.AddSingleton(serviceProvider => PolicyDirectoryLocationFromSolution.Create());
             

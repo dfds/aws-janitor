@@ -33,7 +33,7 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.infrastructure.AwsIdentityClien
          
          var identityManagementServiceStub = amazonIdentityManagementServiceStubBuilder .WithRoles(roles);
 
-         var client = new WebApi.Features.Roles.AwsIdentityClient(identityManagementServiceStub, null, null);
+         var client = new WebApi.Features.Roles.AwsIdentityCommandClient(identityManagementServiceStub, null, null);
          
          // Act
          var managedRoles = await client.GetRolesAsync();

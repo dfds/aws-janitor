@@ -21,7 +21,7 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             var amazonSecurityTokenServiceClient = new AmazonSecurityTokenServiceClient(regionalEndpoint);
             var fakePolicyRepository = new fakePolicyRepository();
 
-            var awsIdentityClient = new AwsIdentityClient(
+            var awsIdentityClient = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceClient,
                 amazonSecurityTokenServiceClient,
                 fakePolicyRepository);

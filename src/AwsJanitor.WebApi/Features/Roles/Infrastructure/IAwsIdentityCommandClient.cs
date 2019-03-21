@@ -5,7 +5,7 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
-    public interface IAwsIdentityClient
+    public interface IAwsIdentityCommandClient
     {
         Task <Role>PutRoleAsync(RoleName roleName);
 

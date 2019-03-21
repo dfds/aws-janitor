@@ -6,7 +6,7 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Tests.Stubs
 {
-    public class AwsIdentityClientStub : IAwsIdentityClient
+    public class AwsIdentityCommandClientStub : IAwsIdentityCommandClient
     {
         public IEnumerable<Role> Roles = new List<Role>();
 

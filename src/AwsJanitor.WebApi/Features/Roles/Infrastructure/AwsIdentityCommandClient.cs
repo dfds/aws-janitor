@@ -12,7 +12,7 @@ using AwsJanitor.WebApi.Models;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
-    public class AwsIdentityClient : IDisposable, IAwsIdentityClient
+    public class AwsIdentityCommandClient : IDisposable, IAwsIdentityCommandClient
     {
         private const  string MANAGED_BY = "managed-by";
         private const  string AWS_JANITOR = "AWS-Janitor";
@@ -21,7 +21,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         private readonly IAmazonSecurityTokenService _securityTokenServiceClient;
         private readonly IPolicyRepository _policyRepository;
 
-        public AwsIdentityClient(
+        public AwsIdentityCommandClient(
             IAmazonIdentityManagementService client,
             IAmazonSecurityTokenService securityTokenServiceClient, 
             IPolicyRepository policyRepository
@@ -54,6 +54,13 @@ namespace AwsJanitor.WebApi.Features.Roles
             {
                 var listRoleTagsResponse = await _client.ListRoleTagsAsync(new ListRoleTagsRequest {RoleName = role.RoleName});
 
+                var listRolePoliciesResponse = await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = role.RoleName});
+
+                foreach (var policyName in listRolePoliciesResponse.PolicyNames)
+                {
+                    var p = await _client.GetRolePolicyAsync(new GetRolePolicyRequest
+                        {PolicyName = policyName, RoleName = role.RoleName});
+                }
                 role.Tags = listRoleTagsResponse.Tags;
             }
             
