@@ -48,6 +48,15 @@ namespace AwsJanitor.WebApi.Features.Roles
         {
             var listRolesResponse = await _client.ListRolesAsync(new ListRolesRequest());
 
+            var roles = listRolesResponse.Roles;
+
+            foreach (var role in roles)
+            {
+                var listRoleTagsResponse = await _client.ListRoleTagsAsync(new ListRoleTagsRequest {RoleName = role.RoleName});
+
+                role.Tags = listRoleTagsResponse.Tags;
+            }
+            
             var managedByJanitorRoles =
                 listRolesResponse.
                     Roles.
@@ -104,7 +113,7 @@ namespace AwsJanitor.WebApi.Features.Roles
                     new Tag{Key = MANAGED_BY,Value = AWS_JANITOR},
                     new Tag{Key = "capability",Value = roleName}
                 },
-                Description = $"sts assumable role for capability: '{roleName}'. Managed by AWS-Janitor",
+                Description = $"sts assumable role for capability: '{roleName}'. Managed by {AWS_JANITOR}",
                 AssumeRolePolicyDocument =
                     @"{""Version"":""2012-10-17"",""Statement"":[{""Effect"":""Allow"",""Principal"":{""Federated"":""" +
                     accountArn + ":saml-provider/ADFS" +

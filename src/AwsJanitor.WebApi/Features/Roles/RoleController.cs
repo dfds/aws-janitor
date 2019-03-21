@@ -28,7 +28,8 @@ namespace AwsJanitor.WebApi.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            return Ok(_awsIdentityClient.GetRolesAsync());
+            var roles = await _awsIdentityClient.GetRolesAsync();
+            return Ok(roles);
         }
 
         [HttpPost("")]

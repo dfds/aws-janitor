@@ -10,3 +10,7 @@ content-type: application/json
 {
     "Name": "Delete-this-role-{{$guid}}"
 }
+
+###
+
+GET http://localhost:5000/api/roles
