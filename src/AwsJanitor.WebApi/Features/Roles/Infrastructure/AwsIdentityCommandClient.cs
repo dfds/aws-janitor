@@ -43,40 +43,6 @@ namespace AwsJanitor.WebApi.Features.Roles
             return role;
         }
 
-        
-        public  async Task<IEnumerable<Role>> GetRolesAsync()
-        {
-            var listRolesResponse = await _client.ListRolesAsync(new ListRolesRequest());
-
-            var roles = listRolesResponse.Roles;
-
-            foreach (var role in roles)
-            {
-                var listRoleTagsResponse = await _client.ListRoleTagsAsync(new ListRoleTagsRequest {RoleName = role.RoleName});
-
-                var listRolePoliciesResponse = await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = role.RoleName});
-
-                foreach (var policyName in listRolePoliciesResponse.PolicyNames)
-                {
-                    var p = await _client.GetRolePolicyAsync(new GetRolePolicyRequest
-                        {PolicyName = policyName, RoleName = role.RoleName});
-                }
-                role.Tags = listRoleTagsResponse.Tags;
-            }
-            
-            var managedByJanitorRoles =
-                listRolesResponse.
-                    Roles.
-                    Where(r => 
-                        r.Tags.Any(t => 
-                            t.Key == MANAGED_BY && 
-                            t.Value == AWS_JANITOR
-                        )
-                    );
-
-            return managedByJanitorRoles;
-        }
-
         public async Task<Role> EnsureRoleExistsAsync(RoleName roleName)
         {
             var identityResponse =

@@ -9,7 +9,6 @@ namespace AwsJanitor.WebApi.Features.Roles
     {
         Task <Role>PutRoleAsync(RoleName roleName);
 
-        Task<IEnumerable<Role>> GetRolesAsync();
         Task DeleteRoleAsync(RoleName roleName);
     }
 }

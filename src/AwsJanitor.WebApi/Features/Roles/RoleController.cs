@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AwsJanitor.WebApi.Features.Roles;
 using AwsJanitor.WebApi.Features.Roles.Model;
-using AwsJanitor.WebApi.Infrastructure.Aws;
 using AwsJanitor.WebApi.Models;
 using AwsJanitor.WebApi.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +24,6 @@ namespace AwsJanitor.WebApi.Controllers
             _awsIdentityCommandClient = awsIdentityCommandClient;
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> Get()
-        {
-            var roles = await _awsIdentityCommandClient.GetRolesAsync();
-            return Ok(roles);
-        }
 
         [HttpPost("")]
         [SwaggerOperation(
