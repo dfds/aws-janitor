@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using AwsJanitor.WebApi.Features.Roles.Model;
+using System.Threading.Tasks;
+using AwsJanitor.WebApi.Models;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
     public interface IAwsIdentityQueryClient
     {
-        IEnumerable<Policy> GetPoliciesByCapabilityName(string capabilityName);
+        Task<IEnumerable<PolicyDTO>> GetPoliciesByCapabilityNameAsync(string capabilityName);
     }
 }

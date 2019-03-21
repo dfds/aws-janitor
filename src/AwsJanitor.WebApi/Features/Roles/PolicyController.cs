@@ -16,7 +16,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         [HttpGet("{capabilityName}")]
         public async Task<IActionResult> Get(string capabilityName)
         {
-            var policies = _awsIdentityQueryClient.GetPoliciesByCapabilityName(capabilityName);
+            var policies = await _awsIdentityQueryClient.GetPoliciesByCapabilityNameAsync(capabilityName);
             return Ok(policies);
         }
     }
