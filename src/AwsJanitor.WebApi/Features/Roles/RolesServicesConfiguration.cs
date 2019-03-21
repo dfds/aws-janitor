@@ -23,6 +23,8 @@ namespace AwsJanitor.WebApi.Features.Roles
 
             services.AddTransient<IAwsIdentityCommandClient, AwsIdentityCommandClient>();
 
+            services.AddTransient<IAwsIdentityQueryClient, AwsIdentityQueryClient>();
+            
             services.AddSingleton(serviceProvider => PolicyDirectoryLocationFromSolution.Create());
             
             services.AddTransient<IPolicyRepository, PolicyRepository>();

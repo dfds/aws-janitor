@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles
@@ -7,7 +8,7 @@ namespace AwsJanitor.WebApi.Features.Roles
     {
         public IEnumerable<Policy> GetPoliciesByCapabilityName(string capabilityName)
         {
-            throw new System.NotImplementedException();
+            return Enumerable.Empty<Policy>();
         }
     }
 }
