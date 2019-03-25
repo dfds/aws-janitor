@@ -32,6 +32,24 @@ namespace AwsJanitor.WebApi.Features.Roles
             _policyRepository = policyRepository;
         }
 
+        public async Task SyncRole(RoleName roleName)
+        {
+            await SyncTags(roleName);
+            await PutRolePoliciesAsync(roleName);
+        }
+        
+        public async Task SyncTags(RoleName roleName)
+        {
+           await _client.TagRoleAsync(new TagRoleRequest
+            {
+                RoleName = roleName,
+                Tags = new List<Tag>
+                {
+                    new Tag {Key = MANAGED_BY, Value = AWS_JANITOR},
+                    new Tag {Key = "capability", Value = roleName}
+                }
+            });
+        }
 
         public async Task<Role> PutRoleAsync(RoleName roleName)
         {
@@ -113,7 +131,6 @@ namespace AwsJanitor.WebApi.Features.Roles
                     })
                 );
             }
-
             Task.WaitAll(tasks.ToArray());
         }
 

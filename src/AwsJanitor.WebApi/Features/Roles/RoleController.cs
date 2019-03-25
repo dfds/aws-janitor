@@ -24,6 +24,15 @@ namespace AwsJanitor.WebApi.Controllers
             _awsIdentityCommandClient = awsIdentityCommandClient;
         }
 
+        [HttpGet("{rolename}/sync")]
+        public async Task<IActionResult> SyncRole(string rolename)
+        {
+            var roleName = RoleName.Create(rolename);
+
+            await _awsIdentityCommandClient.SyncRole(roleName);
+
+            return Ok();
+        }
 
         [HttpPost("")]
         [SwaggerOperation(
