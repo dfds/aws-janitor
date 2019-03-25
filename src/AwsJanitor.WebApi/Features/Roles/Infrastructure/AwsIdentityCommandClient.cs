@@ -35,7 +35,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         public async Task SyncRole(RoleName roleName)
         {
             await SyncTags(roleName);
-            await PutRolePoliciesAsync(roleName);
+            await SyncPoliciesAsync(roleName);
         }
         
         public async Task SyncTags(RoleName roleName)
@@ -55,7 +55,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         {
             var role = await EnsureRoleExistsAsync(roleName);
 
-            await PutRolePoliciesAsync(roleName);
+            await SyncPoliciesAsync(roleName);
 
             
             return role;
@@ -111,12 +111,29 @@ namespace AwsJanitor.WebApi.Features.Roles
                     @"""},""Action"":""sts:AssumeRoleWithSAML"", ""Condition"": {""StringEquals"": {""SAML:aud"": ""https://signin.aws.amazon.com/saml""}}}]}"
             };
         }
-
-        private async Task PutRolePoliciesAsync(RoleName roleName)
+        
+        
+        private async Task SyncPoliciesAsync(RoleName roleName)
         {
-            var policies = await _policyRepository.GetLatestAsync();
+            var policyTemplates = await _policyRepository.GetLatestAsync();
+
+            var policiesResponse =
+                await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});
+
+            var policiesToDelete =
+                policiesResponse.PolicyNames.Where(p => policyTemplates.Select(pt => pt.Name).Contains(p) == false);
+            foreach (var policyName in policiesToDelete)
+            {
+                await _client.DeleteRolePolicyAsync(new DeleteRolePolicyRequest
+                {
+                    RoleName = roleName,
+                    PolicyName = policyName
+                });
+            }
+            
+            
             var tasks = new List<Task>();
-            foreach (var policy in policies)
+            foreach (var policy in policyTemplates)
             {
                 tasks.Add(Task.Run(async () =>
                     {
@@ -133,6 +150,7 @@ namespace AwsJanitor.WebApi.Features.Roles
             }
             Task.WaitAll(tasks.ToArray());
         }
+     
 
         public async Task DeleteRoleAsync(RoleName roleName)
         {
