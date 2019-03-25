@@ -629,7 +629,7 @@ namespace AwsJanitor.WebApi.Tests.Stubs
         public Task<ListRolePoliciesResponse> ListRolePoliciesAsync(ListRolePoliciesRequest request,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(new ListRolePoliciesResponse() {PolicyNames = new List<string>()});
         }
 
         public Task<ListRolesResponse> ListRolesAsync(CancellationToken cancellationToken = new CancellationToken())
