@@ -15,6 +15,11 @@ namespace AwsJanitor.WebApi.Tests.Stubs
             return Task.FromResult(new Role {RoleName = RoleName.Create(roleName)});
         }
 
+        public Task SyncRole(RoleName roleName)
+        {
+            return Task.CompletedTask;
+        }
+
         public Task<IEnumerable<Role>> GetRolesAsync()
         {
             return Task.FromResult(Roles);
