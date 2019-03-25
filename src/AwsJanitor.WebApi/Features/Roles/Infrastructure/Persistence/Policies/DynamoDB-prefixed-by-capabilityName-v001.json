@@ -26,7 +26,7 @@
         "arn:aws:dynamodb:::table/capabilityName*/backup/",
         "arn:aws:dynamodb:::table/capabilityName*/stream/",
         "arn:aws:dynamodb:::table/capabilityName*/index/",
-        "arn:aws:dynamodb:::global-table/capacityName*"
+        "arn:aws:dynamodb:::global-table/capabilityName*"
       ]
     },
     {
