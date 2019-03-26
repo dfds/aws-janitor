@@ -38,6 +38,8 @@ namespace AwsJanitor.WebApi.Features.Roles
             await SyncPoliciesAsync(roleName);
         }
         
+        
+        
         public async Task SyncTags(RoleName roleName)
         {
            await _client.TagRoleAsync(new TagRoleRequest
@@ -46,7 +48,8 @@ namespace AwsJanitor.WebApi.Features.Roles
                 Tags = new List<Tag>
                 {
                     new Tag {Key = MANAGED_BY, Value = AWS_JANITOR},
-                    new Tag {Key = "capability", Value = roleName}
+                    new Tag {Key = "capability", Value = roleName},
+                    new Tag {Key = "last updated", Value = DateTime.UtcNow.ToString("u")}
                 }
             });
         }
