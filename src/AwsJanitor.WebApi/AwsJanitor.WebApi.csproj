@@ -28,18 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\ecr-prefixed-by-capabilityName-v001.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Update="Features\Roles\Infrastructure\Persistence\Policies\s3-prefixed-by-capabilityName-v001.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\ElastiCache-full-access-v001.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\DynamoDB-prefixed-by-capabilityName-v001.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 
