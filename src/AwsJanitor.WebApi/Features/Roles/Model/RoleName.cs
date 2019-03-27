@@ -5,6 +5,9 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
 {
     public class RoleName
     {
+        // Rules
+        // https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html
+        
         public static RoleName Create(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -18,8 +21,7 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
             }
 
             roleName = roleName
-                .Replace(" ", "-")
-                .ToLower();
+                .Replace(" ", "-");
             
             roleName = Regex.Replace(roleName, "[^0-9a-zA-Z+=,.@_-]+", "");
 

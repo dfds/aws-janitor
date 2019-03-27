@@ -44,21 +44,6 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.RoleName
             var expectedRoleName = "1-2-3-4";
             Assert.Equal(expectedRoleName, roleName);
         }
-        
-        
-        [Fact]
-        public void Replaces_Uppercase_With_Lowercase()
-        {
-            // Arrange
-            var subject = "ABCD";
-            
-            // Act 
-            var roleName = AwsJanitor.WebApi.Features.Roles.Model.RoleName.Create(subject);
-            
-            // Assert
-            var expectedRoleName = "abcd";
-            Assert.Equal(expectedRoleName, roleName);
-        }
 
 
         [Fact]
