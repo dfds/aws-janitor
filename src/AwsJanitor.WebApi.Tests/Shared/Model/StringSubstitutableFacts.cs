@@ -1,7 +1,7 @@
-using AwsJanitor.WebApi.Features.Roles.Model;
+using AwsJanitor.WebApi.Shared.Model;
 using Xunit;
 
-namespace AwsJanitor.WebApi.Tests.Models
+namespace AwsJanitor.WebApi.Tests.Shared.Model
 {
     public class StringSubstitutableFacts
     {

@@ -1,4 +1,4 @@
-namespace AwsJanitor.WebApi.Features.Roles.Model
+namespace AwsJanitor.WebApi.Shared.Model
 {
     public abstract class StringSubstitutable
     {

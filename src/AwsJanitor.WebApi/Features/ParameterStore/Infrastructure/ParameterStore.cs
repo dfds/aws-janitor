@@ -22,9 +22,10 @@ namespace AwsJanitor.WebApi.Infrastructure.Aws
         {
             using (IAmazonSimpleSystemsManagement client = new AmazonSimpleSystemsManagementClient(_region))
             {
+                var name = $"/eks/{_kubernetesClusterName}/default_user";
                 var request = new GetParameterRequest
                 {
-                    Name = $"/eks/{_kubernetesClusterName}/default_user",
+                    Name = name,
                     WithDecryption = true
                 };
                 var response = await client.GetParameterAsync(request);

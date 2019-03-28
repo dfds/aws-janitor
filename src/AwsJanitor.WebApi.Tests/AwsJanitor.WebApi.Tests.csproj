@@ -26,4 +26,8 @@
     <ProjectReference Include="..\AwsJanitor.WebApi\AwsJanitor.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared" />
+  </ItemGroup>
+
 </Project>
