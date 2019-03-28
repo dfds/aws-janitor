@@ -1,13 +1,14 @@
 using System;
 using System.Text.RegularExpressions;
+using AwsJanitor.WebApi.Shared.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles.Model
 {
-    public class RoleName
+    public class RoleName : StringSubstitutable
     {
         // Rules
         // https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html
-        
+
         public static RoleName Create(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -22,46 +23,14 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
 
             roleName = roleName
                 .Replace(" ", "-");
-            
+
             roleName = Regex.Replace(roleName, "[^0-9a-zA-Z+=,.@_-]+", "");
 
             return new RoleName(roleName);
         }
 
-        private readonly string _name;
-
-        public RoleName(string name)
+        public RoleName(string name) : base(name)
         {
-            _name = name;
-        }
-
-      
-        public static implicit operator string(RoleName roleName)
-        {
-            return roleName?._name;
-        }
-
-        public override string ToString()
-        {
-            return _name;
-        }
-
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case RoleName roleName:
-                    return _name.Equals(roleName._name);
-                case string item:
-                    return _name.Equals(item);
-                default:
-                    return false;
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            return _name.GetHashCode();
         }
     }
 }
