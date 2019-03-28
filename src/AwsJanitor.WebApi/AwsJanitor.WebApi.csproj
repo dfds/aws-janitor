@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Features\Roles\Infrastructure\Persistence\Policies\s3-prefixed-by-capabilityName-v001.json">
+    <Content Update="Features\Roles\Infrastructure\Persistence\PolicyTemplates\s3-prefixed-by-capabilityName-v001.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -19,7 +19,7 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             var regionalEndpoint = RegionEndpoint.EUWest1;
             var amazonIdentityManagementServiceClient = new AmazonIdentityManagementServiceClient(regionalEndpoint);
             var amazonSecurityTokenServiceClient = new AmazonSecurityTokenServiceClient(regionalEndpoint);
-            var fakePolicyRepository = new fakePolicyRepository();
+            var fakePolicyRepository = new FakePolicyTemplateRepository();
 
             var awsIdentityClient = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceClient,
@@ -43,11 +43,11 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             }
         }
 
-        public class fakePolicyRepository : IPolicyRepository
+        public class FakePolicyTemplateRepository : IPolicyTemplateRepository
         {
-            public Task<IEnumerable<Policy>> GetLatestAsync()
+            public Task<IEnumerable<PolicyTemplate>> GetLatestAsync()
             {
-                return Task.FromResult(Enumerable.Empty<Policy>());
+                return Task.FromResult(Enumerable.Empty<PolicyTemplate>());
             }
         }
     }

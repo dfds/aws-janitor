@@ -27,7 +27,7 @@ namespace AwsJanitor.WebApi.Features.Roles
             
             services.AddSingleton(serviceProvider => PolicyDirectoryLocationFromSolution.Create());
             
-            services.AddTransient<IPolicyRepository, PolicyRepository>();
+            services.AddTransient<IPolicyTemplateRepository, PolicyTemplateRepository>();
         }
     }
 }

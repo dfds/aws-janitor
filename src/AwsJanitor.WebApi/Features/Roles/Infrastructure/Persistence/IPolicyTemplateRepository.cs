@@ -4,8 +4,8 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
-    public interface IPolicyRepository
+    public interface IPolicyTemplateRepository
     {
-        Task<IEnumerable<Policy>> GetLatestAsync();
+        Task<IEnumerable<PolicyTemplate>> GetLatestAsync();
     }
 }

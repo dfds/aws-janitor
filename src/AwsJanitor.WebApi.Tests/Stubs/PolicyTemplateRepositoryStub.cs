@@ -6,11 +6,11 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Tests.Stubs
 {
-    public class PolicyRepositoryStub : IPolicyRepository
+    public class PolicyTemplateRepositoryStub : IPolicyTemplateRepository
     {
-        public Task<IEnumerable<Policy>> GetLatestAsync()
+        public Task<IEnumerable<PolicyTemplate>> GetLatestAsync()
         {
-            return Task.FromResult(Enumerable.Empty<Policy>());
+            return Task.FromResult(Enumerable.Empty<PolicyTemplate>());
         }
     }
 }

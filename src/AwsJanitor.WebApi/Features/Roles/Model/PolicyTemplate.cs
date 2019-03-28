@@ -1,8 +1,8 @@
 namespace AwsJanitor.WebApi.Features.Roles.Model
 {
-    public class Policy
+    public class PolicyTemplate
     {
-        public Policy(string name, string document)
+        public PolicyTemplate(string name, string document)
         {
             Name = name;
             Document = document;

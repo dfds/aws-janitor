@@ -34,7 +34,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
-                new PolicyRepositoryStub()
+                new PolicyTemplateRepositoryStub()
             );
 
             // Act / Assert
@@ -61,7 +61,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
-                new PolicyRepositoryStub()
+                new PolicyTemplateRepositoryStub()
             );
 
 

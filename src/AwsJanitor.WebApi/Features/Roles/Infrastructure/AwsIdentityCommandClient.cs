@@ -19,17 +19,17 @@ namespace AwsJanitor.WebApi.Features.Roles
 
         private readonly IAmazonIdentityManagementService _client;
         private readonly IAmazonSecurityTokenService _securityTokenServiceClient;
-        private readonly IPolicyRepository _policyRepository;
+        private readonly IPolicyTemplateRepository _policyTemplateRepository;
 
         public AwsIdentityCommandClient(
             IAmazonIdentityManagementService client,
             IAmazonSecurityTokenService securityTokenServiceClient, 
-            IPolicyRepository policyRepository
+            IPolicyTemplateRepository policyTemplateRepository
         )
         {
             _client = client;
             _securityTokenServiceClient = securityTokenServiceClient;
-            _policyRepository = policyRepository;
+            _policyTemplateRepository = policyTemplateRepository;
         }
 
         public async Task SyncRole(RoleName roleName)
@@ -118,7 +118,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         
         private async Task SyncPoliciesAsync(RoleName roleName)
         {
-            var policyTemplates = await _policyRepository.GetLatestAsync();
+            var policyTemplates = await _policyTemplateRepository.GetLatestAsync();
 
             var policiesResponse =
                 await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});

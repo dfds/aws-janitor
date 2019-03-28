@@ -7,16 +7,16 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence
 {
-    public class PolicyRepository : IPolicyRepository
+    public class PolicyTemplateRepository : IPolicyTemplateRepository
     {
         private readonly PolicyDirectoryLocation _policyDirectoryLocation;
 
-        public PolicyRepository(PolicyDirectoryLocation policyDirectoryLocation)
+        public PolicyTemplateRepository(PolicyDirectoryLocation policyDirectoryLocation)
         {
             _policyDirectoryLocation = policyDirectoryLocation;
         }
 
-        public async Task<IEnumerable<Policy>> GetLatestAsync()
+        public async Task<IEnumerable<PolicyTemplate>> GetLatestAsync()
         {
             var policyFiles = GetAllPolicyFiles();
 
@@ -27,7 +27,7 @@ namespace AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence
                     var policyDocument = await ReadFileAsync(filePath);
                     var policyName = Path.GetFileNameWithoutExtension(filePath);
                     
-                    var policy = new Policy(
+                    var policy = new PolicyTemplate(
                         policyName,
                         policyDocument
                     );
