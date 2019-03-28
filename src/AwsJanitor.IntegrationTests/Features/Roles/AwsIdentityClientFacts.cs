@@ -5,6 +5,7 @@ using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.SecurityToken;
 using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Features.Roles.Infrastructure;
 using AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence;
 using AwsJanitor.WebApi.Features.Roles.Model;
 using AwsJanitor.WebApi.Tests.Stubs;
@@ -22,10 +23,9 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             var amazonIdentityManagementServiceClient = new AmazonIdentityManagementServiceClient(regionalEndpoint);
             var amazonSecurityTokenServiceClient = new AmazonSecurityTokenServiceClient(regionalEndpoint);
             var fakePolicyRepository = new FakePolicyTemplateRepository();
-            var identityManagementClient = new IdentityManagementServiceClientStub();
+            var identityManagementClient = new IdentityManagementServiceClient(new AmazonIdentityManagementServiceWrapper(amazonIdentityManagementServiceClient));
 
 
-            var identityManagementServiceClient = new IdentityManagementServiceClientStub();
             var awsIdentityClient = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceClient,
                 amazonSecurityTokenServiceClient,
@@ -33,12 +33,12 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
                 identityManagementClient
             );
 
-            var roleName = RoleName.Create("test-role-do-delete");
-            
+            var roleName = RoleName.Create("test-role-do-delete-33");
+            var role = await awsIdentityClient.EnsureRoleExistsAsync(roleName);
+
             try
             {
                 // Act
-                var role = await awsIdentityClient.EnsureRoleExistsAsync(roleName);
 
                 
                 // Assert
@@ -46,7 +46,7 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             }
             finally
             {
-                await identityManagementServiceClient.DeleteRoleAsync(roleName);
+                await identityManagementClient.DeleteRoleAsync(roleName);
             }
         }
 

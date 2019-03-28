@@ -28,9 +28,21 @@ namespace AwsJanitor.WebApi.Features.Roles.Infrastructure
             return _client.DeleteRoleAsync(deleteRoleRequest);
         }
 
+        
+        
         public void Dispose()
         {
             _client?.Dispose();
+        }
+
+        public Task<GetRolePolicyResponse> GetPolicyAsync(GetRolePolicyRequest getRolePolicyRequest)
+        {
+            return _client.GetRolePolicyAsync(getRolePolicyRequest);
+        }
+
+        public Task<PutRolePolicyResponse> PutRolePolicyAsync(PutRolePolicyRequest rolePolicyRequest)
+        {
+            return _client.PutRolePolicyAsync(rolePolicyRequest);
         }
     }
 }

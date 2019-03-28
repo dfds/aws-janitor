@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
@@ -5,7 +6,7 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence
 {
-    public class IdentityManagementServiceClient :IIdentityManagementServiceClient
+    public class IdentityManagementServiceClient : IIdentityManagementServiceClient
     {
         private readonly IAmazonIdentityManagementServiceWrapper _client;
 
@@ -25,8 +26,8 @@ namespace AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence
                 });
             }
         }
-        
-        
+
+
         public async Task DeleteRoleAsync(RoleName roleName)
         {
             var policiesResponse =
@@ -42,7 +43,62 @@ namespace AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence
 
             await _client.DeleteRoleAsync(new DeleteRoleRequest {RoleName = roleName});
         }
-        
+//        var tasks = new List<Task>();
+//            foreach (var policy in policyTemplates)
+//        {
+//            tasks.Add(Task.Run(async () =>
+//                {
+//                    var policyDocumentWithRoleName = policy.Document.Replace("capabilityName", roleName);
+//                    var rolePolicyRequest = new PutRolePolicyRequest
+//                    {
+//                        RoleName = roleName,
+//                        PolicyName = policy.Name,
+//                        PolicyDocument = policyDocumentWithRoleName
+//                    };
+//                    await _client.PutRolePolicyAsync(rolePolicyRequest);
+//                })
+//            );
+//        }
+//        Task.WaitAll(tasks.ToArray());
+        public async Task<IEnumerable<Policy>> PutPoliciesAsync(RoleName roleName, IEnumerable<Policy> policies)
+        {
+            var policiesAdded = new List<Policy>();
+            foreach (var policy in policies)
+            {
+                GetRolePolicyResponse getRolePolicyResponse;
+                try
+                {
+                    getRolePolicyResponse = await _client.GetPolicyAsync(new GetRolePolicyRequest
+                        {RoleName = roleName, PolicyName = policy.Name});
+
+                }
+                catch (NoSuchEntityException)
+                {
+                    getRolePolicyResponse = null;
+                }
+                
+                if (
+                    getRolePolicyResponse != null &&
+                    policy.Document == Uri.UnescapeDataString(getRolePolicyResponse.PolicyDocument)
+                )
+                {
+                    continue;
+                }
+                
+                policiesAdded.Add(policy);
+
+                var rolePolicyRequest = new PutRolePolicyRequest
+                {
+                    RoleName = roleName,
+                    PolicyName = policy.Name,
+                    PolicyDocument = policy.Document
+                };
+                await _client.PutRolePolicyAsync(rolePolicyRequest);
+            }
+
+            return policiesAdded;
+        }
+
         public void Dispose()
         {
             _client?.Dispose();

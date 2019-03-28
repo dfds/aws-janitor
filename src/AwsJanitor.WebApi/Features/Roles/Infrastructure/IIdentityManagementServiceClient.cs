@@ -9,5 +9,6 @@ namespace AwsJanitor.WebApi.Features.Roles
     {
         Task DeleteRolePoliciesAsync(RoleName roleName, IEnumerable<string> namesOfPoliciesToDelete);
         Task DeleteRoleAsync(RoleName roleName);
+        Task<IEnumerable<Policy>> PutPoliciesAsync(RoleName roleName, IEnumerable<Policy> policies);
     }
 }

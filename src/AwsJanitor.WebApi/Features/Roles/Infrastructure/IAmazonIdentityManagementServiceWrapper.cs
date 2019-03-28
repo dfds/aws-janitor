@@ -9,5 +9,7 @@ namespace AwsJanitor.WebApi.Features.Roles.Infrastructure
         Task<ListRolePoliciesResponse> ListRolePoliciesAsync(ListRolePoliciesRequest listRolePoliciesRequest);
         Task<DeleteRoleResponse> DeleteRoleAsync(DeleteRoleRequest deleteRoleRequest);
         void Dispose();
+        Task<GetRolePolicyResponse> GetPolicyAsync(GetRolePolicyRequest getRolePolicyRequest);
+        Task<PutRolePolicyResponse> PutRolePolicyAsync(PutRolePolicyRequest rolePolicyRequest);
     }
 }

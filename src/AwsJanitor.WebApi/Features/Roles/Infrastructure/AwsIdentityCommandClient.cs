@@ -117,8 +117,9 @@ namespace AwsJanitor.WebApi.Features.Roles
             };
         }
         
-        
-        private async Task SyncPoliciesAsync(RoleName roleName)
+
+        /// <returns>Bool true if any change to policies have been made</returns>
+        public async Task<bool> SyncPoliciesAsync(RoleName roleName)
         {
             var policyTemplates = await _policyTemplateRepository.GetLatestAsync();
 
@@ -130,25 +131,12 @@ namespace AwsJanitor.WebApi.Features.Roles
                 FindPolicyNamesWithoutTemplates(policiesResponse.PolicyNames, policyTemplates);
 
             await _identityManagementClient.DeleteRolePoliciesAsync(roleName, namesOfPoliciesToDelete);
-            
-            
-            var tasks = new List<Task>();
-            foreach (var policy in policyTemplates)
-            {
-                tasks.Add(Task.Run(async () =>
-                    {
-                        var policyDocumentWithRoleName = policy.Document.Replace("capabilityName", roleName);
-                        var rolePolicyRequest = new PutRolePolicyRequest
-                        {
-                            RoleName = roleName,
-                            PolicyName = policy.Name,
-                            PolicyDocument = policyDocumentWithRoleName
-                        };
-                        await _client.PutRolePolicyAsync(rolePolicyRequest);
-                    })
-                );
-            }
-            Task.WaitAll(tasks.ToArray());
+
+            var capabilityName = new CapabilityName(roleName);
+            var policies = policyTemplates.Select(p => Policy.Create(p, capabilityName));
+            var policiesAdded = await _identityManagementClient.PutPoliciesAsync(roleName, policies);
+
+            return namesOfPoliciesToDelete.Any() & policiesAdded.Any();
         }
 
         public  IEnumerable<string> FindPolicyNamesWithoutTemplates(
