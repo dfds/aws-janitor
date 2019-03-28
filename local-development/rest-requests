@@ -21,11 +21,15 @@ GET http://localhost:5000/api/policies/Delete-this-role-1
 
 ###
 
-POST http://localhost:5000/api/roles HTTP/1.1
+POST http://localhost:5001/api/roles HTTP/1.1
 content-type: application/json
 
 {
-    "Name": "Delete-this-role-1"
+    "Name": "Delete-this-role-2"
 }
+
+###
+
+GET http://localhost:5001/api/configs/kubeconfig
 
 ###
