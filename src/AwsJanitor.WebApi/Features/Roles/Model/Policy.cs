@@ -12,7 +12,7 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
         public string Document { get; }
 
         
-        public static Policy Create(PolicyTemplate policyTemplate, string capabilityName)
+        public static Policy Create(PolicyTemplate policyTemplate, CapabilityName capabilityName)
         {
             var policy = new Policy(
                 name: policyTemplate.Name, 
