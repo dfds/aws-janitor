@@ -5,10 +5,9 @@ using AwsJanitor.WebApi.Features.Roles.Model;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
-    public interface IAwsIdentityCommandClient
+    public interface IIdentityManagementServiceClient
     {
-        Task <Role>PutRoleAsync(RoleName roleName);
-
-        Task SyncRole(RoleName roleName);
+        Task DeleteRolePoliciesAsync(RoleName roleName, IEnumerable<string> namesOfPoliciesToDelete);
+        Task DeleteRoleAsync(RoleName roleName);
     }
 }

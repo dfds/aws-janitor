@@ -4,7 +4,7 @@ curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
  
 ###
 
-POST http://localhost:5000/api/roles HTTP/1.1
+POST http://localhost:5001/api/roles HTTP/1.1
 content-type: application/json
 
 {
@@ -17,7 +17,7 @@ GET http://localhost:5000/api/roles
 
 ###
 
-GET http://localhost:5000/api/policies/Delete-this-role-1
+GET http://localhost:5001/api/policies/delete-this-role-1
 
 ###
 
@@ -31,5 +31,9 @@ content-type: application/json
 ###
 
 GET http://localhost:5001/api/configs/kubeconfig
+
+###
+
+GET http://localhost:5001/api/roles/delete-this-role-1/sync
 
 ###

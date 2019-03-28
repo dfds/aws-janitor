@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Roles\Infrastructure\AwsIdentityCommandClient" />
     <Folder Include="Shared" />
   </ItemGroup>
 

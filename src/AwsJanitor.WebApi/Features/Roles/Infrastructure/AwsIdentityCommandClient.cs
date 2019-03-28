@@ -18,18 +18,20 @@ namespace AwsJanitor.WebApi.Features.Roles
         private const  string AWS_JANITOR = "AWS-Janitor";
 
         private readonly IAmazonIdentityManagementService _client;
+        private readonly IIdentityManagementServiceClient _identityManagementClient;
         private readonly IAmazonSecurityTokenService _securityTokenServiceClient;
         private readonly IPolicyTemplateRepository _policyTemplateRepository;
 
         public AwsIdentityCommandClient(
             IAmazonIdentityManagementService client,
             IAmazonSecurityTokenService securityTokenServiceClient, 
-            IPolicyTemplateRepository policyTemplateRepository
-        )
+            IPolicyTemplateRepository policyTemplateRepository, 
+            IIdentityManagementServiceClient identityManagementClient)
         {
             _client = client;
             _securityTokenServiceClient = securityTokenServiceClient;
             _policyTemplateRepository = policyTemplateRepository;
+            _identityManagementClient = identityManagementClient;
         }
 
         public async Task SyncRole(RoleName roleName)
@@ -123,16 +125,11 @@ namespace AwsJanitor.WebApi.Features.Roles
             var policiesResponse =
                 await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});
 
-            var policiesToDelete =
-                policiesResponse.PolicyNames.Where(p => policyTemplates.Select(pt => pt.Name).Contains(p) == false);
-            foreach (var policyName in policiesToDelete)
-            {
-                await _client.DeleteRolePolicyAsync(new DeleteRolePolicyRequest
-                {
-                    RoleName = roleName,
-                    PolicyName = policyName
-                });
-            }
+
+            var namesOfPoliciesToDelete =
+                FindPolicyNamesWithoutTemplates(policiesResponse.PolicyNames, policyTemplates);
+
+            await _identityManagementClient.DeleteRolePoliciesAsync(roleName, namesOfPoliciesToDelete);
             
             
             var tasks = new List<Task>();
@@ -153,23 +150,23 @@ namespace AwsJanitor.WebApi.Features.Roles
             }
             Task.WaitAll(tasks.ToArray());
         }
-     
 
-        public async Task DeleteRoleAsync(RoleName roleName)
+        public  IEnumerable<string> FindPolicyNamesWithoutTemplates(
+            IEnumerable<string> policyNames, 
+            IEnumerable<PolicyTemplate> policyTemplates
+        )
         {
-            var policiesResponse =
-                await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});
-            foreach (var policyName in policiesResponse.PolicyNames)
-            {
-                await _client.DeleteRolePolicyAsync(new DeleteRolePolicyRequest
-                {
-                    RoleName = roleName,
-                    PolicyName = policyName
-                });
-            }
+            var policyTemplateNames = policyTemplates.Select(pt =>
+                pt.Name
+            );
+            
+            var namesOfPoliciesToDelete = 
+                policyNames.Where(p => policyTemplateNames.Contains(p) == false);
 
-            await _client.DeleteRoleAsync(new DeleteRoleRequest {RoleName = roleName});
+            
+            return namesOfPoliciesToDelete;
         }
+    
 
         public void Dispose()
         {

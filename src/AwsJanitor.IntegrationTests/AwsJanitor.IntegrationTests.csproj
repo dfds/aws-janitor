@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AwsJanitor.WebApi.Tests\AwsJanitor.WebApi.Tests.csproj" />
       <ProjectReference Include="..\AwsJanitor.WebApi\AwsJanitor.WebApi.csproj" />
     </ItemGroup>
 

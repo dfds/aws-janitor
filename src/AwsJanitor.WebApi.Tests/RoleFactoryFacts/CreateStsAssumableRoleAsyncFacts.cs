@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
@@ -31,10 +32,14 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
+            var identityManagementClient = new IdentityManagementServiceClientStub();
+
+            
             var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
-                new PolicyTemplateRepositoryStub()
+                new PolicyTemplateRepositoryStub(),
+                identityManagementClient
             );
 
             // Act / Assert
@@ -58,10 +63,13 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
             var amazonSecurityTokenServiceStubBuilder = new AmazonSecurityTokenServiceStubBuilder();
             var roleName = "doesNotMatter";
 
+            var identityManagementClient = new IdentityManagementServiceClientStub();
+            
             var sut = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceStubBuilder.WithCreateRoleResponse(createRoleResponse),
                 amazonSecurityTokenServiceStubBuilder.WithGetCallerIdentityResponse(getCallerIdentityResponse),
-                new PolicyTemplateRepositoryStub()
+                new PolicyTemplateRepositoryStub(),
+                identityManagementClient
             );
 
 

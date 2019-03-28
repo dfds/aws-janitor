@@ -13,7 +13,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
         {
             var accountArn = new AwsAccountArn("foo");
             var roleName = new RoleName("baa");
-            var sut = new AwsIdentityCommandClient(null,null, null);
+            var sut = new AwsIdentityCommandClient(null,null, null,null);
 
 
             // Act
@@ -30,7 +30,7 @@ namespace AwsJanitor.WebApi.Tests.RoleFactoryFacts
         {
             var accountArn = new AwsAccountArn("foo");
             var roleName = new RoleName("baa");
-            var sut = new AwsIdentityCommandClient(null,null, null);
+            var sut = new AwsIdentityCommandClient(null,null, null,null);
 
 
             // Act

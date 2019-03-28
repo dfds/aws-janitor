@@ -5,7 +5,9 @@ using Amazon;
 using Amazon.IdentityManagement;
 using Amazon.SecurityToken;
 using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Features.Roles.Infrastructure.Persistence;
 using AwsJanitor.WebApi.Features.Roles.Model;
+using AwsJanitor.WebApi.Tests.Stubs;
 using Xunit;
 
 namespace AwsJanitor.IntegrationTests.Features.Roles
@@ -20,11 +22,16 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             var amazonIdentityManagementServiceClient = new AmazonIdentityManagementServiceClient(regionalEndpoint);
             var amazonSecurityTokenServiceClient = new AmazonSecurityTokenServiceClient(regionalEndpoint);
             var fakePolicyRepository = new FakePolicyTemplateRepository();
+            var identityManagementClient = new IdentityManagementServiceClientStub();
 
+
+            var identityManagementServiceClient = new IdentityManagementServiceClientStub();
             var awsIdentityClient = new AwsIdentityCommandClient(
                 amazonIdentityManagementServiceClient,
                 amazonSecurityTokenServiceClient,
-                fakePolicyRepository);
+                fakePolicyRepository, 
+                identityManagementClient
+            );
 
             var roleName = RoleName.Create("test-role-do-delete");
             
@@ -39,7 +46,7 @@ namespace AwsJanitor.IntegrationTests.Features.Roles
             }
             finally
             {
-                await awsIdentityClient.DeleteRoleAsync(roleName);
+                await identityManagementServiceClient.DeleteRoleAsync(roleName);
             }
         }
 
