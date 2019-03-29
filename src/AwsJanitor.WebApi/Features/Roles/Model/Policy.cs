@@ -16,7 +16,7 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
         {
             var policy = new Policy(
                 name: policyTemplate.Name, 
-                document: policyTemplate.Document.Replace("capabilityName", capabilityName)
+                document: policyTemplate.Document.Replace("capabilityName", capabilityName.ToString().ToLower())
             );
 
             
