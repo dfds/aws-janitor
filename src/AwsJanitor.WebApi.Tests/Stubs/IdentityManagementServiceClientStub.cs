@@ -20,7 +20,7 @@ namespace AwsJanitor.WebApi.Tests.Stubs
 
         public Task<IEnumerable<Policy>> PutPoliciesAsync(RoleName roleName, IEnumerable<Policy> policies)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(policies);
         }
     }
 }
