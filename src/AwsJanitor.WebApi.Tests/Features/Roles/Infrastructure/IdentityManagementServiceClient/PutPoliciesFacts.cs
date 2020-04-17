@@ -1,13 +1,7 @@
 using System.Threading.Tasks;
-using Amazon;
-using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
-using Amazon.SecurityToken;
-using AwsJanitor.WebApi.Features.Roles;
-using AwsJanitor.WebApi.Features.Roles.Infrastructure;
 using AwsJanitor.WebApi.Features.Roles.Model;
 using AwsJanitor.WebApi.Tests.Spies;
-using AwsJanitor.WebApi.Tests.Stubs;
 using Xunit;
 
 namespace AwsJanitor.WebApi.Tests.Features.Roles.Infrastructure.IdentityManagementServiceClient
@@ -23,7 +17,7 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.Infrastructure.IdentityManageme
 
             amazonIdentityManagementServiceWrapperStub.GetPolicyAsyncResponse =
                 () => throw new NoSuchEntityException("");
-            var policies = new []{Policy.Create(new PolicyTemplate("",""), new CapabilityName(""))};
+            var policies = new []{Policy.Create(new PolicyTemplate("",""))};
             
             
             // Act
@@ -46,7 +40,7 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.Infrastructure.IdentityManageme
 
             amazonIdentityManagementServiceWrapperStub.GetPolicyAsyncResponse =
                 () =>  new GetRolePolicyResponse {PolicyDocument = policyDocument};
-            var policies = new []{Policy.Create(new PolicyTemplate("",policyDocument), new CapabilityName(""))};
+            var policies = new []{Policy.Create(new PolicyTemplate("",policyDocument))};
             
             
             // Act
