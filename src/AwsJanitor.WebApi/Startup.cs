@@ -77,7 +77,7 @@ namespace AwsJanitor.WebApi
 
             eventRegistry
                 .Register<ContextAddedToCapabilityDomainEvent>(
-                    eventTypeName: "capability_created",
+                    eventTypeName: "context_added_to_capability",
                     topicName: "build.capabilities",
                     eventHandler: serviceProvider.GetRequiredService<IEventHandler<ContextAddedToCapabilityDomainEvent>>());
 

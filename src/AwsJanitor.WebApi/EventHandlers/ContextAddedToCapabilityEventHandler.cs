@@ -21,7 +21,12 @@ namespace AwsJanitor.WebApi.EventHandlers
 
             Func<PolicyTemplate, string> policyTemplateFormatter = (template) =>
             {
-                return template.Document.Replace("capabilityRootId", domainEvent.Data.CapabilityRootId);
+                var document = template.Document;
+
+                document = document.Replace("capabilityName", domainEvent.Data.CapabilityName);
+                document = document.Replace("capabilityRootId", domainEvent.Data.CapabilityRootId);
+
+                return document;
             };
 
             _awsIdentityCommandClient.PutRoleAsync(roleName, policyTemplateFormatter);
