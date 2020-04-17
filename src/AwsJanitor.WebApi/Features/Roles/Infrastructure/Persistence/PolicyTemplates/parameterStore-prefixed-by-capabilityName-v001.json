@@ -9,7 +9,7 @@
         "ssm:GetParameters",
         "ssm:GetParameter"
       ],
-      "Resource": "arn:aws:ssm:*:*:parameter/capabilities/capabilityName/*"
+      "Resource": "arn:aws:ssm:*:*:parameter/capabilities/$CapabilityIdentifier/*"
     },
     {
       "Sid": "DescribeParameters",
