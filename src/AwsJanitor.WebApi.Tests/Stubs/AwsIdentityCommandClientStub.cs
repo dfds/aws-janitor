@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
@@ -10,7 +11,7 @@ namespace AwsJanitor.WebApi.Tests.Stubs
     {
         public IEnumerable<Role> Roles = new List<Role>();
 
-        public Task<Role> PutRoleAsync(RoleName roleName)
+        public Task<Role> PutRoleAsync(RoleName roleName, Func<PolicyTemplate, string> policyTemplateFormatter = default)
         {
             return Task.FromResult(new Role {RoleName = RoleName.Create(roleName)});
         }

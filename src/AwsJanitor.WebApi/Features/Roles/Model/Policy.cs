@@ -1,3 +1,5 @@
+using System;
+
 namespace AwsJanitor.WebApi.Features.Roles.Model
 {
     public class Policy
@@ -11,15 +13,13 @@ namespace AwsJanitor.WebApi.Features.Roles.Model
         public string Name { get; }
         public string Document { get; }
 
-        
-        public static Policy Create(PolicyTemplate policyTemplate, CapabilityName capabilityName)
+        public static Policy Create(PolicyTemplate policyTemplate, Func<PolicyTemplate, string> policyTemplateFormatter = default)
         {
             var policy = new Policy(
                 name: policyTemplate.Name, 
-                document: policyTemplate.Document.Replace("capabilityName", capabilityName.ToString().ToLower())
+                document: policyTemplateFormatter != default ? policyTemplateFormatter(policyTemplate) : policyTemplate.Document
             );
 
-            
             return policy;
         }
     }

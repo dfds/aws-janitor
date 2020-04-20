@@ -1,4 +1,5 @@
 using AwsJanitor.WebApi.Features.Roles.Model;
+using System;
 using Xunit;
 
 namespace AwsJanitor.WebApi.Tests.Features.Roles.Model
@@ -12,12 +13,9 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.Model
             var name = "foo";
             var document = "baaa";
             var policyTemplate = new PolicyTemplate(name, document);
-            var capabilityName = new CapabilityName("");
-
 
             // Act
-            var policy = Policy.Create(policyTemplate, capabilityName);
-
+            var policy = Policy.Create(policyTemplate);
 
             // Assert
             Assert.Equal(name, policy.Name);
@@ -33,10 +31,13 @@ namespace AwsJanitor.WebApi.Tests.Features.Roles.Model
             var policyTemplate = new PolicyTemplate(name, document);
             var capabilityName = new CapabilityName("baaa");
 
+            Func<PolicyTemplate, string> policyTemplateFormatter = (template) =>
+            {
+                return template.Document.Replace("capabilityName", capabilityName.ToString().ToLower());
+            };
 
             // Act
-            var policy = Policy.Create(policyTemplate, capabilityName);
-            
+            var policy = Policy.Create(policyTemplate, policyTemplateFormatter);
             
             // Assert
             var expectedDocument = "foo baaa";

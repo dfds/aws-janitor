@@ -40,8 +40,6 @@ namespace AwsJanitor.WebApi.Features.Roles
             await SyncPoliciesAsync(roleName);
         }
         
-        
-        
         public async Task SyncTags(RoleName roleName)
         {
            await _client.TagRoleAsync(new TagRoleRequest
@@ -56,12 +54,18 @@ namespace AwsJanitor.WebApi.Features.Roles
             });
         }
 
-        public async Task<Role> PutRoleAsync(RoleName roleName)
+        public async Task<Role> PutRoleAsync(RoleName roleName, Func<PolicyTemplate, string> policyTemplateFormatter = default)
         {
             var role = await EnsureRoleExistsAsync(roleName);
 
-            await SyncPoliciesAsync(roleName);
+            if (policyTemplateFormatter == default) {
+                policyTemplateFormatter = (template) =>
+                {
+                    return template.Document.Replace("capabilityName", new CapabilityName(roleName).ToString().ToLower());
+                };
+            }           
 
+            await SyncPoliciesAsync(roleName, policyTemplateFormatter);
             
             return role;
         }
@@ -98,7 +102,6 @@ namespace AwsJanitor.WebApi.Features.Roles
             }
         }
 
-
         public CreateRoleRequest CreateRoleRequest(AwsAccountArn accountArn, RoleName roleName)
         {
             return new CreateRoleRequest
@@ -116,16 +119,14 @@ namespace AwsJanitor.WebApi.Features.Roles
                     @"""},""Action"":""sts:AssumeRoleWithSAML"", ""Condition"": {""StringEquals"": {""SAML:aud"": ""https://signin.aws.amazon.com/saml""}}}]}"
             };
         }
-        
 
         /// <returns>Bool true if any change to policies have been made</returns>
-        public async Task<bool> SyncPoliciesAsync(RoleName roleName)
+        public async Task<bool> SyncPoliciesAsync(RoleName roleName, Func<PolicyTemplate, string> policyTemplateFormatter = default)
         {
             var policyTemplates = await _policyTemplateRepository.GetLatestAsync();
 
             var policiesResponse =
                 await _client.ListRolePoliciesAsync(new ListRolePoliciesRequest {RoleName = roleName});
-
 
             var namesOfPoliciesToDelete =
                 FindPolicyNamesWithoutTemplates(policiesResponse.PolicyNames, policyTemplates);
@@ -133,7 +134,8 @@ namespace AwsJanitor.WebApi.Features.Roles
             await _identityManagementClient.DeleteRolePoliciesAsync(roleName, namesOfPoliciesToDelete);
 
             var capabilityName = new CapabilityName(roleName);
-            var policies = policyTemplates.Select(p => Policy.Create(p, capabilityName));
+
+            var policies = policyTemplates.Select(p => Policy.Create(p, policyTemplateFormatter));
             var policiesAdded = await _identityManagementClient.PutPoliciesAsync(roleName, policies);
 
             return namesOfPoliciesToDelete.Any() & policiesAdded.Any();

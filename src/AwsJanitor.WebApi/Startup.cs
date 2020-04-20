@@ -67,7 +67,7 @@ namespace AwsJanitor.WebApi
         {
             var eventRegistry = new DomainEventRegistry();
             services.AddSingleton(eventRegistry);
-            services.AddTransient<IEventHandler<CapabilityCreatedDomainEvent>, CapabilityCreatedEventHandler>();
+            services.AddTransient<IEventHandler<ContextAddedToCapabilityDomainEvent>, ContextAddedToCapabilityEventHandler>();
 
 
             services.AddTransient<KafkaConsumerFactory.KafkaConfiguration>();
@@ -76,10 +76,10 @@ namespace AwsJanitor.WebApi
             var serviceProvider = services.BuildServiceProvider();
 
             eventRegistry
-                .Register<CapabilityCreatedDomainEvent>(
-                    eventTypeName: "capability_created",
+                .Register<ContextAddedToCapabilityDomainEvent>(
+                    eventTypeName: "context_added_to_capability",
                     topicName: "build.capabilities",
-                    eventHandler: serviceProvider.GetRequiredService<IEventHandler<CapabilityCreatedDomainEvent>>());
+                    eventHandler: serviceProvider.GetRequiredService<IEventHandler<ContextAddedToCapabilityDomainEvent>>());
 
             services.AddTransient<IEventDispatcher, EventDispatcher>();
         }

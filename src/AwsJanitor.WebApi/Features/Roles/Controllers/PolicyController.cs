@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AwsJanitor.WebApi.Features.Roles
 {
     [Route("api/policies")]
-    public class PolicyController :ControllerBase
+    public class PolicyController : ControllerBase
     {
         private readonly IAwsIdentityQueryClient _awsIdentityQueryClient;
 
