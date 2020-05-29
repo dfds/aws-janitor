@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Amazon;
 using Amazon.IdentityManagement;
 using AwsJanitor.WebApi.Features.Roles.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AwsJanitor.WebApi.Features.Roles
 {
@@ -13,7 +14,7 @@ namespace AwsJanitor.WebApi.Features.Roles
         public static void ConfigureServices(IServiceCollection services)
         {
            
-            services.AddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
+            services.TryAddTransient<IAmazonSecurityTokenService>(serviceProvider => new AmazonSecurityTokenServiceClient(
                 region: serviceProvider.GetRequiredService<RegionEndpoint>()
             ));
 
@@ -23,10 +24,10 @@ namespace AwsJanitor.WebApi.Features.Roles
 
             services.AddTransient<IIdentityManagementServiceClient, IdentityManagementServiceClient>();
             
-            services.AddTransient<IAwsIdentityCommandClient, AwsIdentityCommandClient>();
+            services.TryAddTransient<IAwsIdentityCommandClient, AwsIdentityCommandClient>();
 
             
-            services.AddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
+            services.TryAddTransient<ICreateIAMRoleRequestValidator, CreateIAMRoleRequestValidator>();
 
             services.AddTransient<IAwsIdentityQueryClient, AwsIdentityQueryClient>();
             
