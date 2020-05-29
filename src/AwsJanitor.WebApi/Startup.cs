@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AwsJanitor.WebApi.Controllers;
 using AwsJanitor.WebApi.Domain.Events;
 using AwsJanitor.WebApi.EventHandlers;
 using AwsJanitor.WebApi.Features.Roles;
+using AwsJanitor.WebApi.Infrastructure.Aws;
 using AwsJanitor.WebApi.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -47,10 +49,13 @@ namespace AwsJanitor.WebApi
                 c.EnableAnnotations();
             });
 
-
+            
             RolesServicesConfiguration.ConfigureServices(services);
-
-            ParameterStoreServicesConfiguration.ConfigureServices(Configuration, services);
+            if (services.Any(s => typeof(IParameterStore).IsAssignableFrom(s.ServiceType)) == false)
+            {
+                ParameterStoreServicesConfiguration.ConfigureServices(Configuration, services);
+            }
+     
 
             services.AddHostedService<MetricHostedService>();
 
