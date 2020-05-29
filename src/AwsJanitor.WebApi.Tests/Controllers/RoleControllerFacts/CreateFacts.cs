@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon;
@@ -22,6 +21,7 @@ namespace AwsJanitor.WebApi.Tests.Controllers.RoleControllerFacts
                 // Arrange
                 var client = builder
                     .WithService<ICreateIAMRoleRequestValidator>(new CreateIAMRoleRequestValidatorStub(false))
+                    .WithService<IAwsIdentityCommandClient>(new AwsIdentityCommandClientStub())
                     .WithService(RegionEndpoint.CNNorth1)
                     .Build();
 
@@ -51,6 +51,7 @@ namespace AwsJanitor.WebApi.Tests.Controllers.RoleControllerFacts
                 var client = builder
                     .WithService<ICreateIAMRoleRequestValidator>(new CreateIAMRoleRequestValidatorStub(true))
                     .WithService<IAwsIdentityCommandClient>(new AwsIdentityCommandClientStub())
+                    .WithService<IParameterStore>(new ParameterStoreStub(null))
                     .WithService(RegionEndpoint.CNNorth1)
                     .Build();
 

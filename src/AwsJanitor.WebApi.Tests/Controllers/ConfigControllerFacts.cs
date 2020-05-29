@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+using Amazon.SecurityToken;
 using AwsJanitor.WebApi.Controllers;
 using AwsJanitor.WebApi.Infrastructure.Aws;
 using AwsJanitor.WebApi.Tests.Builders;
@@ -31,6 +32,7 @@ namespace AwsJanitor.WebApi.Tests.Controllers
 
                 var client = builder
                     .WithService<IParameterStore>(new ParameterStoreStub(dummyContent))
+                    .WithService<IAmazonSecurityTokenService>(new AmazonSecurityTokenServiceStub())
                     .Build();
 
                 var response = await client.GetAsync("api/configs/kubeconfig");
