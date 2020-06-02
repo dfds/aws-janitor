@@ -31,7 +31,7 @@ namespace AwsJanitor.WebApi.Tests.Builders
         {
             return new WebHostBuilder()
                 .UseStartup<Startup>()
-                .ConfigureTestServices(services =>
+                .ConfigureServices(services =>
                 {
                     _serviceDescriptors
                         .Values
