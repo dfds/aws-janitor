@@ -35,7 +35,7 @@ run_tests() {
         '/p:Include="[AwsJanitor.WebApi]*"'
 
     mv ./AwsJanitor.WebApi.Tests/coverage.cobertura.xml "${BUILD_SOURCES_DIRECTORY}/output/"
-    mv ./AwsJanitor.WebApi.Tests/TestResults/testresults.trx "${BUILD_SOURCES_DIRECTORY}/output/"
+    #mv ./AwsJanitor.WebApi.Tests/TestResults/testresults.trx "${BUILD_SOURCES_DIRECTORY}/output/" // Currently breaks the pipeline
 }
 
 publish_binaries() {
