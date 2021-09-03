@@ -29,10 +29,10 @@ spec:
       - name: aws-janitor
         image: 579478677147.dkr.ecr.eu-central-1.amazonaws.com/ded/aws-janitor:$(Build.BuildId)
         ports:
-          - containerPort: 80
-            name: web
-          - containerPort: 8080
-            name: metrics
+        - containerPort: 80
+          name: web
+        - containerPort: 8080
+          name: metrics
         resources:
           requests:
             memory: "64Mi"
@@ -55,31 +55,31 @@ spec:
             port: web
             path: /healthz
         env:
-          - name: KUBERNETES_CLUSTER_NAME
-            value: $(KUBERNETES_CLUSTER_NAME)
-          - name: AWS_REGION
-            value: $(AWS_REGION)
-          - name: KAFKA_BOOTSTRAP_SERVERS
-            value: $(KAFKA_BOOTSTRAP_SERVERS)
-          - name: KAFKA_BROKER_VERSION_FALLBACK
-            value: "0.10.0.0"
-          - name: KAFKA_API_VERSION_FALLBACK_MS
-            value: "0"
-          - name: KAFKA_SASL_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: aws-janitor-kafka-credentials
-                key: username
-          - name: KAFKA_SASL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: aws-janitor-kafka-credentials
-                key: password
-          - name: KAFKA_GROUP_ID
-            value: "$(KAFKA_GROUP_ID)"
-          - name: KAFKA_ENABLE_AUTO_COMMIT
-            value: "false"
-          - name: KAFKA_SASL_MECHANISMS
-            value: "PLAIN"
-          - name: KAFKA_SECURITY_PROTOCOL
-            value: "SASL_SSL"
+        - name: KUBERNETES_CLUSTER_NAME
+          value: $(KUBERNETES_CLUSTER_NAME)
+        - name: AWS_REGION
+          value: $(AWS_REGION)
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: $(KAFKA_BOOTSTRAP_SERVERS)
+        - name: KAFKA_BROKER_VERSION_FALLBACK
+          value: "0.10.0.0"
+        - name: KAFKA_API_VERSION_FALLBACK_MS
+          value: "0"
+        - name: KAFKA_SASL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: aws-janitor-kafka-credentials
+              key: username
+        - name: KAFKA_SASL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: aws-janitor-kafka-credentials
+              key: password
+        - name: KAFKA_GROUP_ID
+          value: "$(KAFKA_GROUP_ID)"
+        - name: KAFKA_ENABLE_AUTO_COMMIT
+          value: "false"
+        - name: KAFKA_SASL_MECHANISMS
+          value: "PLAIN"
+        - name: KAFKA_SECURITY_PROTOCOL
+          value: "SASL_SSL"
