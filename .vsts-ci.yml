@@ -13,7 +13,7 @@ steps:
 
   - bash: |
       set -eu -o pipefail
-      sudo pip install awscli
+      sudo pip3 install awscli
       export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
       chmod +x ./pipeline.sh
       ./pipeline.sh $(Build.BuildId) $(System.DefaultWorkingDirectory)
