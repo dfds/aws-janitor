@@ -66,9 +66,15 @@ spec:
         - name: KAFKA_API_VERSION_FALLBACK_MS
           value: "0"
         - name: KAFKA_SASL_USERNAME
-          value: $(KAFKA_SASL_USERNAME)
+          valueFrom:
+            secretKeyRef:
+              name: aws-janitor-kafka-credentials
+              key: username
         - name: KAFKA_SASL_PASSWORD
-          value: $(KAFKA_SASL_PASSWORD)
+          valueFrom:
+            secretKeyRef:
+              name: aws-janitor-kafka-credentials
+              key: password
         - name: KAFKA_GROUP_ID
           value: "$(KAFKA_GROUP_ID)"
         - name: KAFKA_ENABLE_AUTO_COMMIT
@@ -77,6 +83,3 @@ spec:
           value: "PLAIN"
         - name: KAFKA_SECURITY_PROTOCOL
           value: "SASL_SSL"
-
-        
-          
