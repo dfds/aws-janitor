@@ -5,6 +5,15 @@ name: '.Net Version Sweeper'
 # - Scheduled on the first of every month
 # - Manually runable from the GitHub UI with a reason
 on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches:
+      - master
+      - main
   schedule:
   - cron: '0 0 1 * *'
   workflow_dispatch:
